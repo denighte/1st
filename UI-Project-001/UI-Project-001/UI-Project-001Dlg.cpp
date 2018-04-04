@@ -176,25 +176,6 @@ void CMainDlg::OnPaint()
 			Obj.SelectPoint(Obj.DrawComplex(number));
 		}
 
-		//Obj.DrawLine(...., RGB color);
-		//Obj.DrawFunction(startx, endx, sin())
-		
-
-		/*
-		CPen* WndNewPen = new CPen(PS_SOLID, 2, RGB(0, 128, 0));
-		Obj.GetWorkSpace(WndNewPen);
-		delete WndNewPen;
-
-		WndNewPen = new CPen(PS_DOT, 1, RGB(215, 215, 215));
-		Obj.DrawMarkingLinesX(10, WndNewPen);
-		Obj.DrawMarkingLinesY(10);
-		delete WndNewPen;
-
-		WndNewPen = new CPen(PS_SOLID, 1, RGB(0, 0, 0));
-		Obj.DrawAxis(WndNewPen, &font);
-		delete WndNewPen;
-
-		Obj.DrawLables(100, 10);*/
 
 		
 
@@ -259,7 +240,7 @@ std::complex<double> CMainDlg::GetComplex(CString& c)
 void CMainDlg::SetResult(std::complex<double> value) 
 {
 	CString c;
-	c.Format(_T("(%f,%f)"), value.real(), value.imag());
+	c.Format(_T("(%f, %f)"), value.real(), value.imag());
 	result.SetWindowTextW(c);
 	InfoUpdate = TRUE;
 	Invalidate();

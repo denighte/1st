@@ -33,9 +33,6 @@
     <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphFuncs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DCGraphAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -48,9 +45,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphFuncs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DCGraphAdapter.cpp">
