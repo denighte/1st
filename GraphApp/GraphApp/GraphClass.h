@@ -6,7 +6,7 @@
 typedef double(*GraphFunction)(double);
 typedef CString(*LabelStepCalc)(double);
 
-class GPaint {
+class GPaint : public CWnd {
 private:
 	CONST INT MIN_WORK_SPACE_SIZE = 50;
 
@@ -71,9 +71,12 @@ private:
 	void DrawAxis();
 	void DrawLabels();
 public:
+	GPaint();
 	GPaint(CPaintDC& dc, const RECT & WorkSpace);
 	GPaint(const GPaint &) = delete;
 	GPaint & operator=(const GPaint &) = delete;
+
+	BOOL RegisterWindowClass();
 
 	void __vectorcall SetBgStyle(
 		int BevelWidth = 2, 

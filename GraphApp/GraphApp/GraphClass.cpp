@@ -1,8 +1,45 @@
 #include "stdafx.h"
 #include "GraphClass.h"
+
+#define MFCGPAINTCTRL_CLASSNAME    _T("MFCGPaintCtrl")
+
 double GPaint::GetRound(double number) {  //note: Don't forget to define
 	return number;
 }
+
+GPaint::GPaint() {
+	RegisterWindowClass();
+}
+
+
+BOOL GPaint::RegisterWindowClass()
+{
+	WNDCLASS wndcls;
+	HINSTANCE hInst = AfxGetInstanceHandle();
+
+	if (!(::GetClassInfo(hInst, MFCGPAINTCTRL_CLASSNAME, &wndcls)))
+	{
+		// otherwise we need to register a new class
+		wndcls.style = CS_DBLCLKS | CS_HREDRAW | CS_VREDRAW;
+		wndcls.lpfnWndProc = ::DefWindowProc;
+		wndcls.cbClsExtra = wndcls.cbWndExtra = 0;
+		wndcls.hInstance = hInst;
+		wndcls.hIcon = NULL;
+		wndcls.hCursor = AfxGetApp()->LoadStandardCursor(IDC_ARROW);
+		wndcls.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
+		wndcls.lpszMenuName = NULL;
+		wndcls.lpszClassName = MFCGPAINTCTRL_CLASSNAME;
+
+		if (!AfxRegisterClass(&wndcls))
+		{
+			AfxThrowResourceException();
+			return FALSE;
+		}
+	}
+
+	return TRUE;
+}
+
 GPaint::GPaint(CPaintDC& dc, const RECT & WorkSpace)
 	: _dc(dc), _left(WorkSpace.left), _top(WorkSpace.top),
 			   _right(WorkSpace.right), _bottom(WorkSpace.bottom),
