@@ -6,6 +6,7 @@
 #include "GraphApp.h"
 #include "GraphMainDlg.h"
 #include "afxdialogex.h"
+#include "GraphClass.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -64,6 +65,8 @@ BEGIN_MESSAGE_MAP(CGraphMainDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(IDOK, &CGraphMainDlg::OnBnClickedOk)
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 
@@ -141,6 +144,24 @@ void CGraphMainDlg::OnPaint()
 	}
 	else
 	{
+		CPaintDC dc(this);
+		RECT MainWndRect;
+		GetClientRect(&MainWndRect);
+		MainWndRect.left += 50;
+		MainWndRect.top += 50;
+		MainWndRect.right -= 50;
+		MainWndRect.bottom -= 50;
+		GPaint Obj(dc, MainWndRect);
+		//Obj.SetBgStyle(10, RGB(255, 255, 255), RGB(0, 128, 0));
+
+		Obj.SetLimits(-10, 10, -2, 2);
+		Obj.SetGridDeltas(0.2, 0.1);
+		Obj.SetLableSteps(1, 0.5);
+		Obj.SetGraphStyle(0, 1, RGB(234, 78, 21));
+
+		Obj.DrawCoordinateSystem();
+		//Obj.DrawLine(-5, -5, 10, 7);
+		Obj.DrawGraph(sin);
 		CDialogEx::OnPaint();
 	}
 }
@@ -152,3 +173,18 @@ HCURSOR CGraphMainDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+
+void CGraphMainDlg::OnBnClickedOk()
+{
+	// TODO: Add your control notification handler code here
+	CDialogEx::OnOK();
+}
+
+
+void CGraphMainDlg::OnSize(UINT nType, int cx, int cy)
+{
+	CDialogEx::OnSize(nType, cx, cy);
+	Invalidate();
+	// TODO: Add your message handler code here
+}
