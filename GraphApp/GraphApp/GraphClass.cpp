@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "GraphClass.h"
+
 double GPaint::GetRound(double number) {  //note: Don't forget to define
 	return number;
 }
@@ -8,6 +9,7 @@ GPaint::GPaint(CPaintDC& dc, const RECT & WorkSpace)
 			   _right(WorkSpace.right), _bottom(WorkSpace.bottom),
 	_LimitMaxX(0), _LimitMaxY(0), _LimitMinX(0), _LimitMinY(0),
 	_dx(0), _dy(0),
+	GetStepX(DefaultStepX), GetStepY(DefaultStepY),
 	_BgFrameWidth(2), _BgFrameColor(RGB(0, 128, 0)), _BgFillingColor(RGB(255, 255, 255)), 
 	_AxisWidth(1), _AxisColor(RGB(0, 0, 0)), 
 	_GridColor(RGB(215, 215, 215))
@@ -134,7 +136,7 @@ void GPaint::DrawLabels() {
 		_T("System"));
 
 	_dc.SelectObject(font);
-	_dc.SetBkMode(OPAQUE);
+	_dc.SetBkMode(TRANSPARENT);
 
 	_dc.SetTextAlign(TA_CENTER);
 	int RightCount = static_cast<int> (_LimitMaxX / _LabelStepX);
@@ -152,16 +154,17 @@ void GPaint::DrawLabels() {
 	}
 
 	_dc.SetTextAlign(TA_LEFT | TA_BASELINE);
+
 	int TopCount = static_cast<int> (_LimitMaxY / _LabelStepY);
 	int BottomCount = static_cast<int> (-_LimitMinY / _LabelStepY);
 	for (int i = 1; i < max(TopCount, BottomCount); i++) {
 		if (i < TopCount)
 		{
-			_dc.TextOut(toX(0) + _AxisWidth / 2 + 1, toY(i*_LabelStepY), GetStepY(i*_LabelStepY));
+			_dc.TextOut(toX(0) + _AxisWidth / 2 + 1, toY(i*_LabelStepY) + 5, GetStepY(i*_LabelStepY));
 		}
 		if (i < BottomCount)
 		{
-			_dc.TextOut(toX(0) + _AxisWidth / 2 + 1, toY(-i*_LabelStepY), GetStepY(-i*_LabelStepY));
+			_dc.TextOut(toX(0) + _AxisWidth / 2 + 1, toY(-i*_LabelStepY) + 5, GetStepY(-i*_LabelStepY));
 		}
 	}
 
@@ -199,17 +202,29 @@ CString DefaultStepY(double value) {
 }
 
 void GPaint::DrawGraph(GraphFunction func) {
+	DrawGraph(func, _LimitMinX, _LimitMaxX);
+}
+
+void GPaint::DrawGraph(GraphFunction func, double StartX, double EndX) {
 	CPen GraphPen(_gStyle, _gWidth, _glColor);
 	_dc.SelectObject(GraphPen);
 
-	_dc.MoveTo(toX(_LimitMinX), toY(func(_LimitMinX)));
+	_dc.MoveTo(toX(StartX), toY(func(StartX)));
 
 	double delta = (_LimitMaxX - _LimitMinX) / (_right - _left);
 
-	for (int i = 0; i < _right - _left; i++) {
-		double x = _LimitMinX + i * delta;
+
+	for (LONG i = 0; i <= toX(EndX) - toX(StartX); i++) {
+		double x = StartX + i * delta;
 		_dc.LineTo(toX(x), toY(func(x)));
 	}
+
+/*
+	for (LONG i = toX(StartX); i <= toX(EndX); i++) {
+		double x = i * delta;
+		_dc.LineTo(toX(x), toY(func(x)));
+	}
+	*/
 }
 
 bool GPaint::DrawCoordinateSystem() {

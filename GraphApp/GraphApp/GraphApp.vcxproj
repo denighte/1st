@@ -185,6 +185,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Date.h" />
     <ClInclude Include="GraphApp.h" />
     <ClInclude Include="GraphClass.h" />
     <ClInclude Include="GraphMainDlg.h" />
@@ -193,6 +194,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Date.cpp" />
     <ClCompile Include="GraphApp.cpp" />
     <ClCompile Include="GraphClass.cpp" />
     <ClCompile Include="GraphMainDlg.cpp" />
@@ -207,6 +209,7 @@
     <ResourceCompile Include="GraphApp.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="res\GraphApp.rc2" />
   </ItemGroup>
   <ItemGroup>

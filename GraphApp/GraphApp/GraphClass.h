@@ -2,9 +2,10 @@
 #include "stdafx.h"
 #include <exception>
 #include <cmath>
+#include <functional>
 
-typedef double(*GraphFunction)(double);
-typedef CString(*LabelStepCalc)(double);
+typedef std::function<double (double)> GraphFunction;
+typedef std::function<CString(double)> LabelStepCalc;//CString(*LabelStepCalc)(double);
 
 class GPaint {
 private:
@@ -36,8 +37,8 @@ private:
 	double _LabelStepX;
 	double _LabelStepY;
 	double GetAxisLabelsFrequency(char axis);
-	LabelStepCalc GetStepX = DefaultStepX;
-	LabelStepCalc GetStepY = DefaultStepY;
+	LabelStepCalc GetStepX;
+	LabelStepCalc GetStepY;
 
 	friend CString DefaultStepX(double value);
 	friend CString DefaultStepY(double value);
@@ -96,8 +97,8 @@ public:
 	);
 
 	void __vectorcall SetLimits(double minX, double maxX, double minY, double maxY);
-	void SetCustomLabelsX(CString(*XLabel)(double)) { GetStepX = XLabel; };
-	void SetCustomLabelsY(CString(*YLabel)(double)) { GetStepY = YLabel; };
+	void SetCustomLabelsX(LabelStepCalc XLabel) { GetStepX = XLabel; };
+	void SetCustomLabelsY(LabelStepCalc YLabel) { GetStepY = YLabel; };
 
 	void SetGridDeltas(double x, double y); //temporary
 	void SetLableSteps(double x, double y);  //temporary
@@ -105,6 +106,7 @@ public:
 	bool DrawCoordinateSystem();
 	void DrawLine(double x1, double y1, double x2, double y2);
 	void DrawGraph(GraphFunction);
+	void DrawGraph(GraphFunction, double StartX, double EndX);
 
 	class InitErrorException : std::exception {};
 };

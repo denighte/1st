@@ -3,7 +3,10 @@
 //
 
 #pragma once
-
+#include "afxmaskededit.h"
+#include "GraphClass.h"
+#include "Date.h"
+#define M_PI 3.14159265358979323846
 
 // CGraphMainDlg dialog
 class CGraphMainDlg : public CDialogEx
@@ -34,4 +37,22 @@ protected:
 public:
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
+//	afx_msg void OnBnClickedButton1();
+	afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
+	afx_msg void OnBnClickedButtonexit();
+	afx_msg void OnBnClickedButtoncalc();
+private:
+	Date CurrentDate;
+	CMFCMaskedEdit BirthEdit;
+	CMFCMaskedEdit CalcEdit;
+	BOOL BCBirth;
+	BOOL BCCalc;
+	BOOL OnClickedCalc;
+
+	void DrawBiorithms(GPaint & Obj, int DateDelta);
+	int GetDate(Date& BirthDate, Date& CalcDate);
+	void DrawInfoBox(CPaintDC & Obj, RECT* WndSize, int DateDelta);
+public:
+	afx_msg void OnBnClickedCheckBirth();
+	afx_msg void OnBnClickedCheckCalc();
 };
