@@ -21,9 +21,9 @@ public:
 	Date(const Date &a);
 	Date &operator=(const Date &a);
 
-	int getDay() { return _day; }
-	int getMonth() { return _month; }
-	int getYear() { return _year; }
+	int getDay() const { return _day; }
+	int getMonth() const { return _month; }
+	int getYear() const { return _year; }
 
 	friend Date operator+(const Date& lhs, int days);
 	friend Date operator-(const Date& lhs, int days);

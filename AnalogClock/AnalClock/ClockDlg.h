@@ -4,6 +4,7 @@
 
 #pragma once
 #pragma warning(disable:4996)
+#include "Time.h"
 #define TWOPI (2 * 3.14159)
 #define ID_TIMER 1
 
@@ -28,15 +29,17 @@ private:
 	void SetIsotropic(CDC& hdc, int cxClient, int cyClient);
 	void RotatePoint(POINT pt[], int iNum, int iAngle);
 	void DrawClock(CDC& dc);
-	void DrawHands(CDC& hdc, struct tm *datetime, BOOL bChange);
+	void DrawHands(CDC& hdc, Time& datetime/*struct tm *datetime*/, BOOL bChange);
 
 	int cxClient;
 	int cyClient;
-	struct tm dtPrevious;
-	BOOL bChange;
+	Time dtPrevious;
+	//BOOL bChange;
 	//PAINTSTRUCT ps;
-	time_t lTime;
-	struct tm *datetime;
+	//time_t lTime;
+
+	//Time datetime;
+	//struct tm *datetime;
 protected:
 	HICON m_hIcon;
 

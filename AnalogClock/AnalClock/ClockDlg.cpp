@@ -105,9 +105,7 @@ BOOL ÑClockDlg::OnInitDialog()
 	ShowWindow(SW_MAXIMIZE);
 
 	//extra initialization
-	time(&lTime);
-	datetime = localtime(&lTime);
-	dtPrevious = *datetime;
+	dtPrevious;
 	if (!(this->SetTimer(ID_TIMER, 1000, NULL)))
 	{
 		MessageBox(_T("Too many clocks or timers!"), _T("Clock"),
@@ -160,7 +158,7 @@ void ÑClockDlg::OnPaint()
 		CPaintDC dc(this);
 		SetIsotropic(dc, cxClient, cyClient);
 		DrawClock(dc);
-		DrawHands(dc, &dtPrevious, TRUE);
+		DrawHands(dc, dtPrevious, TRUE);
 		CDialogEx::OnPaint();
 	}
 }
@@ -204,16 +202,16 @@ void ÑClockDlg::DrawClock(CDC& dc)
 		dc.Ellipse(pt[0].x, pt[0].y, pt[1].x, pt[1].y);
 	}
 }
-void ÑClockDlg::DrawHands(CDC& dc, struct tm *datetime, BOOL bChange)
+void ÑClockDlg::DrawHands(CDC& dc, Time& datetime, BOOL bChange)
 {
 	static POINT pt[3][5] = { 0, -150, 100, 0, 0, 600, -100, 0, 0, -150,
 		0, -200, 50, 0, 0, 800, -50, 0, 0, -200,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 800 };
 	int i, iAngle[3];
 	POINT ptTemp[3][5];
-	iAngle[0] = (datetime->tm_hour * 30) % 360 + datetime->tm_min / 2;
-	iAngle[1] = datetime->tm_min * 6;
-	iAngle[2] = datetime->tm_sec * 6;
+	iAngle[0] = (datetime.getHour() * 30) % 360 + datetime.getMin() / 2;
+	iAngle[1] = datetime.getMin() * 6;
+	iAngle[2] = datetime.getSec() * 6;
 	memcpy(ptTemp, pt, sizeof(pt));
 	for (i = bChange ? 0 : 2; i < 3; i++)
 	{
@@ -243,17 +241,15 @@ void ÑClockDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	CPaintDC dc(this);
 	// TODO: Add your message handler code here and/or call default
-	time(&lTime);
-	datetime = localtime(&lTime);
-	bChange = datetime->tm_hour != dtPrevious.tm_hour ||
-		datetime->tm_min != dtPrevious.tm_min;
+	Time datetime;
+	BOOL bChange = datetime != dtPrevious;//datetime->tm_hour != dtPrevious.tm_hour || datetime->tm_min != dtPrevious.tm_min;
 	SetIsotropic(dc, cxClient, cyClient);
 	dc.SelectStockObject(WHITE_PEN);
-	DrawHands(dc, &dtPrevious, bChange);
+	DrawHands(dc, dtPrevious, bChange);
 	dc.SelectStockObject(BLACK_PEN);
 	DrawHands(dc, datetime, TRUE);
 	ReleaseDC(&dc);
-	dtPrevious = *datetime;
+	dtPrevious = datetime;
 	Invalidate();
 	CDialogEx::OnTimer(nIDEvent);
 }

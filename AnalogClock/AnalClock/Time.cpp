@@ -11,6 +11,15 @@ Time::Time() {
 
 Time::Time(int hour, int minute, int second) : _hour(hour), _min(minute), _sec(second) {}
 Time::Time(int hour, int minute, int second, int day, int month, int year, bool era) : Date(day, month, year, era), _hour(hour), _min(minute), _sec(second) {}
+Time::Time(const Time& t) : Date(t), _hour(t._hour), _min(t._min), _sec(t._sec) {}
+
+Time& Time::operator=(const Time& t) {
+	Date::operator=(t);
+	_hour = t._hour;
+	_min = t._min;
+	_sec = t._sec;
+	return *this;
+}
 
 bool operator<(const Time& lhs, const Time& rhs) {
 	if (static_cast<const Date&>(lhs) < static_cast<const Date&>(rhs))
