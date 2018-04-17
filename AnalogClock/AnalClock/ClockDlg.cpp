@@ -102,7 +102,7 @@ BOOL ÑClockDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	ShowWindow(SW_MAXIMIZE);
+	ShowWindow(SW_SHOW);
 
 	//extra initialization
 	dtPrevious;
