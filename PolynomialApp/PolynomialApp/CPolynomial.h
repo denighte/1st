@@ -22,28 +22,39 @@ public:
 	Segment operator+() const { return *this; }
 	Segment operator-() const;
 	Segment & operator+=(const Segment & rhs);
+	Segment & operator*=(const Segment & rhs);
 
 	friend Segment operator+(const Segment & lhs, const Segment & rhs);
 	friend Segment operator-(const Segment & lhs, const Segment & rhs);
+	friend Segment operator*(const Segment & lhs, const Segment & rhs);
 
-	class InequivalentDegreesException : std::exception {};
+	class InequivalentDegreesException : std::exception {}; 
+	//Exception class, throw itself in "+" and "-" operators
+	//if dergees are not equal
 };
 
 
-class CPolynomial {
+class Polynomial {
 private:
 	std::list<Segment> _poly;
 	void shrink_zeros();
 public:
-	CPolynomial() : _poly(1, { 0, 0 }) {};
-	~CPolynomial() = default;
-	CPolynomial(const CPolynomial & p) : _poly(p._poly) {};
-	CPolynomial operator=(const CPolynomial & rhs);
+	Polynomial() : _poly(1, { 0, 0 }) {};
+	~Polynomial() = default;
+	Polynomial(const Polynomial & p) : _poly(p._poly) {};
+	Polynomial operator=(const Polynomial & rhs);
 
-	CPolynomial operator+() const{ return *this; }
-	CPolynomial operator-() const;
-	CPolynomial & operator+=(const Segment & rhs);
+	Polynomial operator+() const{ return *this; }
+	Polynomial operator-() const;
+	Polynomial & operator+=(const Segment & rhs);
+	Polynomial & operator-=(const Segment & rhs);
 
-	friend CPolynomial operator+(const CPolynomial & lhs, const CPolynomial & rhs);
-	friend CPolynomial operator-(const CPolynomial & lhs, const CPolynomial & rhs);
+	friend Polynomial operator+(const Polynomial & lhs, const Polynomial & rhs);
+	friend Polynomial operator-(const Polynomial & lhs, const Polynomial & rhs);
+	friend Polynomial operator*(const Polynomial & lhs, const Polynomial & rhs);
+};
+
+class PolynomialBuilder {
+public:
+	static Polynomial parse(std::string);
 };

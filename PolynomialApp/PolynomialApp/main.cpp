@@ -1,12 +1,14 @@
 #include <iostream>
 #include "CPolynomial.h"
-/*int main() {
-	CPolynomial a;
-	a += {3, 1};
+int main() {
+	Polynomial a;
+	a += {1, 1};
 	a += {1, 2};
-	a += {7, 0};
-	CPolynomial b = -a;
+	Polynomial b;
+	b += {1, 2};
+	b += {-2, 1};
+	b += {1, 0};
 
-	CPolynomial c = a + b;
+	Polynomial c = a * b;
 	std::cout << "check" << std::endl;
-}*/
+}
