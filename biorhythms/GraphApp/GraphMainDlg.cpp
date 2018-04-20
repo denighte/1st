@@ -232,7 +232,28 @@ int CGraphMainDlg::GetDate(Date& BirthDate, Date& CalcDate) {
 		Calc += _T(" BC");
 	BirthDate = StringToDate(Birth);
 	CalcDate = StringToDate(Calc);
+	if (!(CheckDates(BirthDate, CalcDate))) {
+		MessageBox(_T("Wrong input"), _T("Error"), MB_OK | MB_ICONERROR);
+		OnClickedCalc = 0;
+	}
+
 	return CalcDate - BirthDate;
+}
+
+bool CGraphMainDlg::CheckDates(const Date & BirthDate, const Date & CalcDate) {
+	if (BirthDate.getDay() < 1 || BirthDate.getDay() > 31)
+		return false;
+	if (BirthDate.getMonth() < 1 || BirthDate.getMonth() > 12)
+		return false;
+
+	if (CalcDate.getDay() < 1 || CalcDate.getDay() > 31)
+		return false;
+	if (CalcDate.getMonth() < 1 || CalcDate.getMonth() > 12)
+		return false;
+
+	if (CalcDate < BirthDate)
+		return false;
+	return true;
 }
 
 void CGraphMainDlg::DrawBiorithms(GPaint & Obj, int DateDelta) {

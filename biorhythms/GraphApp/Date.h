@@ -20,12 +20,9 @@ public:
 	Date(const Date &a);
 	Date &operator=(const Date &a);
 
-	void setDay(int day) { _day = day; }
-	int getDay() { return _day; }
-	void setMonth(int m) { _month = m; }
-	int getMonth() { return _month; }
-	void setYear(int year) { _year = year; _era = (_year > 0) ? false : true; }
-	int getYear() { return _year; }
+	int getDay() const { return _day; }
+	int getMonth() const { return _month; }
+	int getYear() const { return _year; }
 
 	friend Date operator+(const Date& lhs, int days);
 	friend Date operator-(const Date& lhs, int days);

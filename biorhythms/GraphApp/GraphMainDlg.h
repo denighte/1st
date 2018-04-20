@@ -52,6 +52,7 @@ private:
 	void DrawBiorithms(GPaint & Obj, int DateDelta);
 	int GetDate(Date& BirthDate, Date& CalcDate);
 	void DrawInfoBox(CPaintDC & Obj, RECT* WndSize, int DateDelta);
+	bool CheckDates(const Date & BirthDate, const Date & CalcDate);
 public:
 	afx_msg void OnBnClickedCheckBirth();
 	afx_msg void OnBnClickedCheckCalc();

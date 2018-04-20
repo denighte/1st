@@ -102,11 +102,11 @@ bool operator==(const Date &lhs, const Date &rhs) {
 }
 
 bool operator>=(const Date &lhs, const Date &rhs) {
-	return (lhs > rhs && lhs == rhs);
+	return (lhs > rhs || lhs == rhs);
 }
 
 bool operator<=(const Date &lhs, const Date &rhs) {
-	return (lhs < rhs && lhs == rhs);
+	return (lhs < rhs || lhs == rhs);
 }
 
 bool operator!=(const Date &lhs, const Date &rhs) {

@@ -9,11 +9,11 @@
 #define ID_TIMER 1
 
 // ÑClockDlg dialog
-class ÑClockDlg : public CDialogEx
+class CClockDlg : public CDialogEx
 {
 // Construction
 public:
-	ÑClockDlg(CWnd* pParent = NULL);	// standard constructor
+	CClockDlg(CWnd* pParent = NULL);	// standard constructor
 
 // Dialog Data
 #ifdef AFX_DESIGN_TIME

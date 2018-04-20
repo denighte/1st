@@ -49,18 +49,18 @@ END_MESSAGE_MAP()
 
 
 
-ÑClockDlg::ÑClockDlg(CWnd* pParent /*=NULL*/)
+CClockDlg::CClockDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_ANALCLOCK_DIALOG, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
-void ÑClockDlg::DoDataExchange(CDataExchange* pDX)
+void CClockDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 }
 
-BEGIN_MESSAGE_MAP(ÑClockDlg, CDialogEx)
+BEGIN_MESSAGE_MAP(CClockDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
@@ -73,7 +73,7 @@ END_MESSAGE_MAP()
 
 // ÑClockDlg message handlers
 
-BOOL ÑClockDlg::OnInitDialog()
+BOOL CClockDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
@@ -117,7 +117,7 @@ BOOL ÑClockDlg::OnInitDialog()
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
-void ÑClockDlg::OnSysCommand(UINT nID, LPARAM lParam)
+void CClockDlg::OnSysCommand(UINT nID, LPARAM lParam)
 {
 	if ((nID & 0xFFF0) == IDM_ABOUTBOX)
 	{
@@ -134,7 +134,7 @@ void ÑClockDlg::OnSysCommand(UINT nID, LPARAM lParam)
 //  to draw the icon.  For MFC applications using the document/view model,
 //  this is automatically done for you by the framework.
 
-void ÑClockDlg::OnPaint()
+void CClockDlg::OnPaint()
 {
 	if (IsIconic())
 	{
@@ -163,14 +163,14 @@ void ÑClockDlg::OnPaint()
 	}
 }
 
-void ÑClockDlg::SetIsotropic(CDC& dc, int cxClient, int cyClient) {
+void CClockDlg::SetIsotropic(CDC& dc, int cxClient, int cyClient) {
 	dc.SetMapMode(MM_ISOTROPIC);
 	dc.SetWindowExt(1000, 1000);
 	dc.SetViewportExt(cxClient / 2, -cyClient / 2);
 	dc.SetViewportOrg(cxClient / 2, cyClient / 2);
 }
 
-void ÑClockDlg::RotatePoint(POINT pt[], int iNum, int iAngle)
+void CClockDlg::RotatePoint(POINT pt[], int iNum, int iAngle)
 {
 	int i;
 	POINT ptTemp;
@@ -184,7 +184,7 @@ void ÑClockDlg::RotatePoint(POINT pt[], int iNum, int iAngle)
 	}
 }
 
-void ÑClockDlg::DrawClock(CDC& dc)
+void CClockDlg::DrawClock(CDC& dc)
 {
 	int iAngle;
 	POINT pt[3];
@@ -202,7 +202,7 @@ void ÑClockDlg::DrawClock(CDC& dc)
 		dc.Ellipse(pt[0].x, pt[0].y, pt[1].x, pt[1].y);
 	}
 }
-void ÑClockDlg::DrawHands(CDC& dc, Time& datetime, BOOL bChange)
+void CClockDlg::DrawHands(CDC& dc, Time& datetime, BOOL bChange)
 {
 	static POINT pt[3][5] = { 0, -150, 100, 0, 0, 600, -100, 0, 0, -150,
 		0, -200, 50, 0, 0, 800, -50, 0, 0, -200,
@@ -221,14 +221,14 @@ void ÑClockDlg::DrawHands(CDC& dc, Time& datetime, BOOL bChange)
 }
 // The system calls this function to obtain the cursor to display while the user drags
 //  the minimized window.
-HCURSOR ÑClockDlg::OnQueryDragIcon()
+HCURSOR CClockDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
 
 
-void ÑClockDlg::OnSize(UINT nType, int cx, int cy)
+void CClockDlg::OnSize(UINT nType, int cx, int cy)
 {
 	CDialogEx::OnSize(nType, cx, cy);
 	cxClient = cx;
@@ -237,7 +237,7 @@ void ÑClockDlg::OnSize(UINT nType, int cx, int cy)
 }
 
 
-void ÑClockDlg::OnTimer(UINT_PTR nIDEvent)
+void CClockDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	CPaintDC dc(this);
 	// TODO: Add your message handler code here and/or call default
@@ -267,7 +267,7 @@ BOOL ÑClockDlg::PreTranslateMessage(MSG *pMsg)
 
 
 
-void ÑClockDlg::OnClose()
+void CClockDlg::OnClose()
 {
 	// TODO: Add your message handler code here and/or call default
 	DestroyWindow();
@@ -275,7 +275,7 @@ void ÑClockDlg::OnClose()
 }
 
 
-void ÑClockDlg::OnDestroy()
+void CClockDlg::OnDestroy()
 {
 	CDialogEx::OnDestroy();
 
