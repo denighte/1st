@@ -56,6 +56,29 @@ Segment operator*(const Segment & lhs, const Tcoef & rhs)
 	return Segment(lhs) *= rhs;
 }
 
+std::string Segment::to_string() const
+{
+	std::string result;
+	if (!_pow) {
+		if (_coef)
+			return std::to_string(_coef);
+		else
+			return result;
+	}
+	else if (_pow == 1) {
+		result += std::to_string(_coef);
+		result += POLYNOMIAL_VARIABLE;
+		return result;
+	}
+	else {
+		result += std::to_string(_coef);
+		result += POLYNOMIAL_VARIABLE;
+		result += POLYNOMIAL_POWER_SYMBOL;
+		result += std::to_string(_pow);
+		return result;
+	}
+}
+
 
 //CPolynomial class definition
 Polynomial Polynomial::operator=(const Polynomial & rhs) {
@@ -123,6 +146,20 @@ Polynomial & Polynomial::operator*=(const Tcoef & rhs) {
 		(*it) *= rhs;
 	}
 	return *this;
+}
+
+std::string Polynomial::to_string() const
+{
+	std::string result;
+	for (std::list<Segment>::const_iterator it = _poly.begin(); it != _poly.end(); it++) {
+		if ((*it).Coef() > 0) {
+			result += std::string("+") + (*it).to_string();
+		}
+		else {
+			result += (*it).to_string();
+		}
+	}
+	return result;
 }
 
 Polynomial operator+(const Polynomial & lhs, const Polynomial & rhs) {
@@ -214,9 +251,7 @@ Polynomial PolynomialBuilder::parse(const std::string &str)
 	for (Token tk = Token::GetNextToken(str, pos); tk.type() != Token::Type::end; tk = Token::GetNextToken(str, pos)) {
 		Tcoef coef;
 		Tpow power;
-
-		//first step
-		//determine whether the first token is coefficient or variable. If not, throw exception
+		//check all avalible ways of getting the polynomial segment, if can't convert, throw exception
 		if (tk.type() == Token::Type::numeric) {
 			coef = stod(tk.value());
 			tk = Token::GetNextToken(str, pos);
@@ -284,7 +319,7 @@ Polynomial PolynomialBuilder::parse(const std::string &str)
 	}
 	return p;
 }
-
+//check all avalible ways to get power number
 Segment PolynomialBuilder::_SegmentFromPower(Token & tk, const std::string &str, std::string::size_type &pos, Tcoef & coef, Tpow & power, Token & last_sign) {
 
 	tk = Token::GetNextToken(str, pos);
@@ -294,7 +329,6 @@ Segment PolynomialBuilder::_SegmentFromPower(Token & tk, const std::string &str,
 	else {
 		throw StringParseException();
 	}
-
 	tk = Token::GetNextToken(str, pos);
 	if (tk.type() == Token::Type::action || tk.type() == Token::Type::end) {
 		if (tk.type() == Token::Type::action)
@@ -304,6 +338,7 @@ Segment PolynomialBuilder::_SegmentFromPower(Token & tk, const std::string &str,
 	else {
 		throw StringParseException();
 	}
+
 
 }
 

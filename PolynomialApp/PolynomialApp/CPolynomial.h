@@ -7,7 +7,7 @@
 #define DEFAULT_POS -1;
 
 typedef unsigned int Tpow;
-typedef double Tcoef;
+typedef int Tcoef;
 class Segment {
 private:
 	Tcoef _coef;
@@ -34,6 +34,7 @@ public:
 	friend Segment operator*(const Segment & lhs, const Tcoef & rhs);
 	friend Segment operator*(const Tcoef & lhs, const Segment & rhs) { return rhs * lhs; }
 
+	std::string to_string() const;
 	class InequivalentDegreesException : std::exception {}; 
 	//Exception class, throw itself in "+" and "-" operators
 	//if dergees are not equal
@@ -66,6 +67,8 @@ public:
 	friend Polynomial operator*(const Polynomial & lhs, const Tcoef & rhs);
 	friend Polynomial operator*(const Tcoef & lhs, const Polynomial & rhs) { return rhs * lhs; }
 	friend Polynomial operator/(const Polynomial & lhs, const Polynomial & rhs);
+
+	std::string to_string() const;
 };
 
 class Token {
