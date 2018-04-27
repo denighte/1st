@@ -1,0 +1,60 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/Development/Clion Projects/Practice_Task_1_classes/Counter.cpp
+Counter.h
+D:/Development/Clion Projects/Practice_Task_1_classes/Counter.h
+fstream
+-
+ctime
+-
+random
+-
+
+D:/Development/Clion Projects/Practice_Task_1_classes/Counter.h
+string
+-
+vector
+-
+exception
+-
+iostream
+-
+
+D:/Development/Clion Projects/Practice_Task_1_classes/counter.h
+string
+-
+vector
+-
+exception
+-
+iostream
+-
+
+D:/Development/Clion Projects/Practice_Task_1_classes/flist.cpp
+flist.h
+D:/Development/Clion Projects/Practice_Task_1_classes/flist.h
+
+D:/Development/Clion Projects/Practice_Task_1_classes/flist.h
+exception
+-
+stdexcept
+-
+
+D:/Development/Clion Projects/Practice_Task_1_classes/main.cpp
+iostream
+-
+cstdlib
+-
+counter.h
+D:/Development/Clion Projects/Practice_Task_1_classes/counter.h
+flist.h
+D:/Development/Clion Projects/Practice_Task_1_classes/flist.h
+forward_list
+-
+
