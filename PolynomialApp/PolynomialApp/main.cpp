@@ -1,16 +1,47 @@
 #include <iostream>
 #include "CPolynomial.h"
 int main() {
-	//Polynomial a;
-	//a += {3, 5};
-	//a += {2, 4};
-	//a += {3, 2};
-	//a += {1, 0};
-	//Polynomial b;
-	//b += {1, 3};
-	//b += {-8, 1};
+	std::string str_l;
+	std::string str_r;
 
+	std::cout << "Enter 2 polynomials" << std::endl;
+	
+	std::getline(std::cin, str_l);
+	std::getline(std::cin, str_r);
 
-	std::string str = "x^3 + 15*x^2 - 12";
+	Polynomial a(PolynomialBuilder::parse(str_l));
+	Polynomial b(PolynomialBuilder::parse(str_r));
+	Polynomial res;
+	std::cout << "Choose the operation (+,-,*,/):" << std::endl;
+	char operation;
+	bool stdin_flag = true;
+	std::cin >> operation;
+
+	switch (operation)
+	{
+	case '+':
+		res = a + b;
+		break;
+	case '-':
+		res = a - b;
+		break;
+	case '*':
+		res = a * b;
+		break;
+	case '/':
+		res = a / b;
+		break;
+	default:
+		stdin_flag = false;
+		break;
+	}
+
+	if (stdin_flag) {
+		std::cout << "The result of the operation is:" << std::endl;
+		std::cout << res.to_string() << std::endl;
+	}
+	else {
+		std::cout << "Wrong operation!" << std::endl;
+	}
 	system("pause");
 }
