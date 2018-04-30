@@ -88,10 +88,13 @@
 		<Unit filename="D:/Development/Clion Projects/Practice_Task_1_classes/Counter.h">
 			<Option target="Practice_Task_1_classes"/>
 		</Unit>
-		<Unit filename="D:/Development/Clion Projects/Practice_Task_1_classes/flist.cpp">
+		<Unit filename="D:/Development/Clion Projects/Practice_Task_1_classes/CounterManager.cpp">
 			<Option target="Practice_Task_1_classes"/>
 		</Unit>
-		<Unit filename="D:/Development/Clion Projects/Practice_Task_1_classes/flist.h">
+		<Unit filename="D:/Development/Clion Projects/Practice_Task_1_classes/CounterManager.h">
+			<Option target="Practice_Task_1_classes"/>
+		</Unit>
+		<Unit filename="D:/Development/Clion Projects/Practice_Task_1_classes/CycleList.h">
 			<Option target="Practice_Task_1_classes"/>
 		</Unit>
 		<Unit filename="D:/Development/Clion Projects/Practice_Task_1_classes/main.cpp">

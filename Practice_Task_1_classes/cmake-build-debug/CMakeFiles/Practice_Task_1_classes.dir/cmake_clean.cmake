@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Practice_Task_1_classes.dir/main.cpp.obj"
   "CMakeFiles/Practice_Task_1_classes.dir/Counter.cpp.obj"
-  "CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.obj"
+  "CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.obj"
   "Practice_Task_1_classes.pdb"
   "Practice_Task_1_classes.exe"
   "Practice_Task_1_classes.exe.manifest"

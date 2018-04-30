@@ -104,42 +104,42 @@ CMakeFiles/Practice_Task_1_classes.dir/Counter.cpp.obj.provides: CMakeFiles/Prac
 CMakeFiles/Practice_Task_1_classes.dir/Counter.cpp.obj.provides.build: CMakeFiles/Practice_Task_1_classes.dir/Counter.cpp.obj
 
 
-CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.obj: CMakeFiles/Practice_Task_1_classes.dir/flags.make
-CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.obj: ../flist.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\Development\Clion Projects\Practice_Task_1_classes\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.obj"
-	C:\Development\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Practice_Task_1_classes.dir\flist.cpp.obj -c "D:\Development\Clion Projects\Practice_Task_1_classes\flist.cpp"
+CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.obj: CMakeFiles/Practice_Task_1_classes.dir/flags.make
+CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.obj: ../CounterManager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\Development\Clion Projects\Practice_Task_1_classes\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.obj"
+	C:\Development\MinGW\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Practice_Task_1_classes.dir\CounterManager.cpp.obj -c "D:\Development\Clion Projects\Practice_Task_1_classes\CounterManager.cpp"
 
-CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.i"
-	C:\Development\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "D:\Development\Clion Projects\Practice_Task_1_classes\flist.cpp" > CMakeFiles\Practice_Task_1_classes.dir\flist.cpp.i
+CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.i"
+	C:\Development\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "D:\Development\Clion Projects\Practice_Task_1_classes\CounterManager.cpp" > CMakeFiles\Practice_Task_1_classes.dir\CounterManager.cpp.i
 
-CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.s"
-	C:\Development\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "D:\Development\Clion Projects\Practice_Task_1_classes\flist.cpp" -o CMakeFiles\Practice_Task_1_classes.dir\flist.cpp.s
+CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.s"
+	C:\Development\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "D:\Development\Clion Projects\Practice_Task_1_classes\CounterManager.cpp" -o CMakeFiles\Practice_Task_1_classes.dir\CounterManager.cpp.s
 
-CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.obj.requires:
+CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.obj.requires:
 
-.PHONY : CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.obj.requires
+.PHONY : CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.obj.requires
 
-CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.obj.provides: CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.obj.requires
-	$(MAKE) -f CMakeFiles\Practice_Task_1_classes.dir\build.make CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.obj.provides.build
-.PHONY : CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.obj.provides
+CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.obj.provides: CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.obj.requires
+	$(MAKE) -f CMakeFiles\Practice_Task_1_classes.dir\build.make CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.obj.provides.build
+.PHONY : CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.obj.provides
 
-CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.obj.provides.build: CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.obj
+CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.obj.provides.build: CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.obj
 
 
 # Object files for target Practice_Task_1_classes
 Practice_Task_1_classes_OBJECTS = \
 "CMakeFiles/Practice_Task_1_classes.dir/main.cpp.obj" \
 "CMakeFiles/Practice_Task_1_classes.dir/Counter.cpp.obj" \
-"CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.obj"
+"CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.obj"
 
 # External object files for target Practice_Task_1_classes
 Practice_Task_1_classes_EXTERNAL_OBJECTS =
 
 Practice_Task_1_classes.exe: CMakeFiles/Practice_Task_1_classes.dir/main.cpp.obj
 Practice_Task_1_classes.exe: CMakeFiles/Practice_Task_1_classes.dir/Counter.cpp.obj
-Practice_Task_1_classes.exe: CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.obj
+Practice_Task_1_classes.exe: CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.obj
 Practice_Task_1_classes.exe: CMakeFiles/Practice_Task_1_classes.dir/build.make
 Practice_Task_1_classes.exe: CMakeFiles/Practice_Task_1_classes.dir/linklibs.rsp
 Practice_Task_1_classes.exe: CMakeFiles/Practice_Task_1_classes.dir/objects1.rsp
@@ -154,7 +154,7 @@ CMakeFiles/Practice_Task_1_classes.dir/build: Practice_Task_1_classes.exe
 
 CMakeFiles/Practice_Task_1_classes.dir/requires: CMakeFiles/Practice_Task_1_classes.dir/main.cpp.obj.requires
 CMakeFiles/Practice_Task_1_classes.dir/requires: CMakeFiles/Practice_Task_1_classes.dir/Counter.cpp.obj.requires
-CMakeFiles/Practice_Task_1_classes.dir/requires: CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.obj.requires
+CMakeFiles/Practice_Task_1_classes.dir/requires: CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.obj.requires
 
 .PHONY : CMakeFiles/Practice_Task_1_classes.dir/requires
 

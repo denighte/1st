@@ -5,7 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "D:/Development/Clion Projects/Practice_Task_1_classes/Counter.cpp" "D:/Development/Clion Projects/Practice_Task_1_classes/cmake-build-debug/CMakeFiles/Practice_Task_1_classes.dir/Counter.cpp.obj"
-  "D:/Development/Clion Projects/Practice_Task_1_classes/flist.cpp" "D:/Development/Clion Projects/Practice_Task_1_classes/cmake-build-debug/CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.obj"
+  "D:/Development/Clion Projects/Practice_Task_1_classes/CounterManager.cpp" "D:/Development/Clion Projects/Practice_Task_1_classes/cmake-build-debug/CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.obj"
   "D:/Development/Clion Projects/Practice_Task_1_classes/main.cpp" "D:/Development/Clion Projects/Practice_Task_1_classes/cmake-build-debug/CMakeFiles/Practice_Task_1_classes.dir/main.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

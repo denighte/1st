@@ -26,6 +26,26 @@ exception
 iostream
 -
 
+D:/Development/Clion Projects/Practice_Task_1_classes/CounterManager.cpp
+random
+-
+ctime
+-
+CounterManager.h
+D:/Development/Clion Projects/Practice_Task_1_classes/CounterManager.h
+
+D:/Development/Clion Projects/Practice_Task_1_classes/CounterManager.h
+Counter.h
+D:/Development/Clion Projects/Practice_Task_1_classes/Counter.h
+CycleList.h
+D:/Development/Clion Projects/Practice_Task_1_classes/CycleList.h
+
+D:/Development/Clion Projects/Practice_Task_1_classes/CycleList.h
+exception
+-
+stdexcept
+-
+
 D:/Development/Clion Projects/Practice_Task_1_classes/counter.h
 string
 -
@@ -36,16 +56,6 @@ exception
 iostream
 -
 
-D:/Development/Clion Projects/Practice_Task_1_classes/flist.cpp
-flist.h
-D:/Development/Clion Projects/Practice_Task_1_classes/flist.h
-
-D:/Development/Clion Projects/Practice_Task_1_classes/flist.h
-exception
--
-stdexcept
--
-
 D:/Development/Clion Projects/Practice_Task_1_classes/main.cpp
 iostream
 -
@@ -53,8 +63,12 @@ cstdlib
 -
 counter.h
 D:/Development/Clion Projects/Practice_Task_1_classes/counter.h
-flist.h
-D:/Development/Clion Projects/Practice_Task_1_classes/flist.h
+CycleList.h
+D:/Development/Clion Projects/Practice_Task_1_classes/CycleList.h
+CounterManager.h
+D:/Development/Clion Projects/Practice_Task_1_classes/CounterManager.h
 forward_list
+-
+regex
 -
 

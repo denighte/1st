@@ -4,10 +4,14 @@
 CMakeFiles/Practice_Task_1_classes.dir/Counter.cpp.obj: ../Counter.cpp
 CMakeFiles/Practice_Task_1_classes.dir/Counter.cpp.obj: ../Counter.h
 
-CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.obj: ../flist.cpp
-CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.obj: ../flist.h
+CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.obj: ../Counter.h
+CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.obj: ../CounterManager.cpp
+CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.obj: ../CounterManager.h
+CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.obj: ../CycleList.h
 
+CMakeFiles/Practice_Task_1_classes.dir/main.cpp.obj: ../Counter.h
+CMakeFiles/Practice_Task_1_classes.dir/main.cpp.obj: ../CounterManager.h
+CMakeFiles/Practice_Task_1_classes.dir/main.cpp.obj: ../CycleList.h
 CMakeFiles/Practice_Task_1_classes.dir/main.cpp.obj: ../counter.h
-CMakeFiles/Practice_Task_1_classes.dir/main.cpp.obj: ../flist.h
 CMakeFiles/Practice_Task_1_classes.dir/main.cpp.obj: ../main.cpp
 

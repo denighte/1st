@@ -6,8 +6,8 @@
 #include <fstream>
 #include <ctime>
 #include <random>
-#define WORD_SEPARATORS "-,. "
-#define EMPTY_LINE ""
+#define WORD_SEPARATORS L"-,. "
+
 
 Counter & Counter::operator=(const Counter &counter) {
     _src = counter._src;
@@ -15,30 +15,30 @@ Counter & Counter::operator=(const Counter &counter) {
     _end = counter._end;
     return *this;
 }
-Counter & Counter::operator=(const std::string &str) {
+Counter & Counter::operator=(const std::wstring &str) {
     _src = str;
     _start = 0;
     _end = 0;
     return *this;
 }
 
-void Counter::setCounter(const std::string &str) {
+void Counter::setCounter(const std::wstring &str) {
     _src = str;
     _start = 0;
     _end = 0;
 }
 
-std::string Counter::nextWord() {
+std::wstring Counter::nextWord() {
     _start = _src.find_first_not_of(WORD_SEPARATORS, _end);
     _end = _src.find_first_of(WORD_SEPARATORS, _start);
 
     if (_end != std::string::npos) {
-        std::string word = _src.substr(_start, _end - _start);
+        std::wstring word = _src.substr(_start, _end - _start);
         return word;
     } else if (_src.length() > _start) {
         return _src.substr(_start);
     } else {
-        return std::string(EMPTY_LINE);
+        return std::wstring(EMPTY_LINE);
     }
 }
 
@@ -49,14 +49,15 @@ void Counter::restart() {
 
 CounterList& CounterList::operator=(const CounterList &list) {
     _vec = list._vec;
+    return *this;
 }
 
 void CounterList::loadFromFile(const std::string &path) {
-    std::ifstream file(path);
+    std::wifstream file(path);
     if(!file.is_open())
         throw WrongPathException();
 
-    std::string buffer;
+    std::wstring buffer;
     while(std::getline(file, buffer)) {
         if(buffer != EMPTY_LINE)
             _vec.push_back(Counter(buffer));

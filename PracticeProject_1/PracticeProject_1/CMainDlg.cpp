@@ -1,11 +1,13 @@
 
-// ClockDlg.cpp : implementation file
+// CMainDlg.cpp : implementation file
 //
 
 #include "stdafx.h"
-#include "AnalClock.h"
-#include "ClockDlg.h"
+#include "PracticeProject_1.h"
+#include "CMainDlg.h"
 #include "afxdialogex.h"
+#define TWOPI (2 * 3.14159)
+#define ID_TIMER 1
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -45,22 +47,30 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// ÑClockDlg dialog
+// CMainDlg dialog
 
 
 
-CClockDlg::CClockDlg(CWnd* pParent /*=NULL*/)
-	: CDialogEx(IDD_ANALCLOCK_DIALOG, pParent)
+CMainDlg::CMainDlg(CWnd* pParent /*=NULL*/)
+	: CDialogEx(IDD_PRACTICEPROJECT_1_DIALOG, pParent), 
+	  manager_(nullptr),
+	  game_state_(false)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
-void CClockDlg::DoDataExchange(CDataExchange* pDX)
+CMainDlg::~CMainDlg()
+{
+	if(manager_ != nullptr)
+		delete manager_;
+}
+
+void CMainDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 }
 
-BEGIN_MESSAGE_MAP(CClockDlg, CDialogEx)
+BEGIN_MESSAGE_MAP(CMainDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
@@ -68,12 +78,13 @@ BEGIN_MESSAGE_MAP(CClockDlg, CDialogEx)
 	ON_WM_TIMER()
 	ON_WM_CLOSE()
 	ON_WM_DESTROY()
+	ON_BN_CLICKED(IDC_START_GAME, &CMainDlg::OnBnClickedStartGame)
 END_MESSAGE_MAP()
 
 
-// ÑClockDlg message handlers
+// CMainDlg message handlers
 
-BOOL CClockDlg::OnInitDialog()
+BOOL CMainDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
@@ -102,22 +113,37 @@ BOOL CClockDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	ShowWindow(SW_SHOW);
-
 	//extra initialization
-	dtPrevious;
+
+	//Timer init
 	if (!(this->SetTimer(ID_TIMER, 1000, NULL)))
 	{
 		MessageBox(_T("Too many clocks or timers!"), _T("Clock"),
 			MB_ICONEXCLAMATION | MB_OK);
 		return FALSE;
 	}
-	//------
+
+	//Counter init
+	//TODO: add random counter selection
+	Counter cnt = L"Hush, mouse, cat on the roof";
+	
+	participants_.push_front(Student(L"Student1", 0, SPicture(1)));
+	participants_.push_front(Student(L"Student2", 1, SPicture(2)));
+	participants_.push_front(Student(L"Student3", 2, SPicture(3)));
+	participants_.push_front(Student(L"Student4", 3, SPicture(4)));
+	participants_.push_front(Student(L"Student5", 4, SPicture(5)));
+	participants_.push_front(Student(L"Student6", 5, SPicture(6)));
+
+	manager_ = new CounterManager(cnt, participants_);
+	game_state_ = false;
+
+	for (int i = 0; i != NUMBER_OF_PARTICIPANTS; ++i)
+		participants_state_[i] = true;
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
-void CClockDlg::OnSysCommand(UINT nID, LPARAM lParam)
+void CMainDlg::OnSysCommand(UINT nID, LPARAM lParam)
 {
 	if ((nID & 0xFFF0) == IDM_ABOUTBOX)
 	{
@@ -134,7 +160,7 @@ void CClockDlg::OnSysCommand(UINT nID, LPARAM lParam)
 //  to draw the icon.  For MFC applications using the document/view model,
 //  this is automatically done for you by the framework.
 
-void CClockDlg::OnPaint()
+void CMainDlg::OnPaint()
 {
 	if (IsIconic())
 	{
@@ -156,23 +182,32 @@ void CClockDlg::OnPaint()
 	else
 	{
 		CPaintDC dc(this);
-		SetIsotropic(dc, cxClient, cyClient);
-		DrawClock(dc);
-		DrawHands(dc, dtPrevious, TRUE);
-		dc.TextOutW(500, 500, _T("smt"));
+		SetIsotropic(dc, cxClient_, cyClient_);
+		dc.SetTextAlign(TA_CENTER);
+		//DrawParticipantsCircle(dc);
+		//dc.TextOutW(800, 900, (manager_->CurrentWord().c_str()));
+
+		/*int RotateAngle = 360 / NUMBER_OF_PARTICIPANTS;
+		for (int i = 0;;++i) {
+			int RAngle = i * RotateAngle;
+			DrawPointer(dc, RAngle);
+			if (i % 6 == 0)
+				i = 0;
+			_sleep(1000);
+		}*/
+
 		CDialogEx::OnPaint();
 	}
 }
 
-void CClockDlg::SetIsotropic(CDC& dc, int cxClient, int cyClient) {
+void CMainDlg::SetIsotropic(CDC& dc, int cxClient, int cyClient) {
 	dc.SetMapMode(MM_ISOTROPIC);
 	dc.SetWindowExt(1000, 1000);
 	dc.SetViewportExt(cxClient / 2, -cyClient / 2);
 	dc.SetViewportOrg(cxClient / 2, cyClient / 2);
 }
 
-void CClockDlg::RotatePoint(POINT pt[], int iNum, int iAngle)
-{
+void CMainDlg::RotatePoint(POINT pt[], int iNum, int iAngle) {
 	int i;
 	POINT ptTemp;
 	for (i = 0; i < iNum; i++)
@@ -185,101 +220,82 @@ void CClockDlg::RotatePoint(POINT pt[], int iNum, int iAngle)
 	}
 }
 
-void CClockDlg::DrawClock(CDC& dc)
-{
-	int iAngle;
+void CMainDlg::DrawParticipantsCircle(CDC& dc) {
+	int RotateAngle = 360 / NUMBER_OF_PARTICIPANTS;
+	for (int i = 0; i != NUMBER_OF_PARTICIPANTS; ++i) {
+		if (participants_state_[i]) {
+			bool flag = false;
+			CycleList<Student>::iterator it = participants_.begin();
+			for (int j = 0; j <= participants_.length(); ++it, ++j) {
+				if ((*it).id() == i) {
+					flag = true;
+					break;
+				}
+			}
+			if (flag) {
+				POINT StartPoint(PARTICIPANTS_START_POINT);
+				RotatePoint(&StartPoint, 1, static_cast<int>(i*RotateAngle));
+				dc.TextOutW(StartPoint.x, StartPoint.y, (*it).name().c_str());
+			}
+		}
+	}
+}
+void CMainDlg::DrawPointer(CDC& dc, int Angle) {
 	POINT pt[3];
-	for (iAngle = 0; iAngle < 360; iAngle += 6)
-	{
-		pt[0].x = 0;
-		pt[0].y = 900;
-		RotatePoint(pt, 1, iAngle);
-		pt[2].x = pt[2].y = iAngle % 5 ? 33 : 100;
-		pt[0].x -= pt[2].x / 2;
-		pt[0].y -= pt[2].y / 2;
-		pt[1].x = pt[0].x + pt[2].x;
-		pt[1].y = pt[0].y + pt[2].y;
-		dc.SelectStockObject(BLACK_BRUSH);
-		dc.Ellipse(pt[0].x, pt[0].y, pt[1].x, pt[1].y);
-	}
+	memcpy(&pt, &POINTER_VERTEX, sizeof(pt));
+	RotatePoint(pt, 3, Angle);
+	dc.MoveTo(0, 0);
+	dc.LineTo(pt[0]);
+	dc.LineTo(pt[1]);
+	dc.MoveTo(pt[0]);
+	dc.LineTo(pt[2]);
+
 }
-void CClockDlg::DrawHands(CDC& dc, Time& datetime, BOOL bChange)
-{
-	static POINT pt[3][5] = { 0, -150, 100, 0, 0, 600, -100, 0, 0, -150,
-		0, -200, 50, 0, 0, 800, -50, 0, 0, -200,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 800 };
-	int i, iAngle[3];
-	POINT ptTemp[3][5];
-	iAngle[0] = (datetime.getHour() * 30) % 360 + datetime.getMin() / 2;
-	iAngle[1] = datetime.getMin() * 6;
-	iAngle[2] = datetime.getSec() * 6;
-	memcpy(ptTemp, pt, sizeof(pt));
-	for (i = bChange ? 0 : 2; i < 3; i++)
-	{
-		RotatePoint(ptTemp[i], 5, iAngle[i]);
-		dc.Polyline(ptTemp[i], 5);
-	}
-}
+
 // The system calls this function to obtain the cursor to display while the user drags
 //  the minimized window.
-HCURSOR CClockDlg::OnQueryDragIcon()
+HCURSOR CMainDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
 
 
-void CClockDlg::OnSize(UINT nType, int cx, int cy)
+void CMainDlg::OnSize(UINT nType, int cx, int cy)
 {
 	CDialogEx::OnSize(nType, cx, cy);
-	cxClient = cx;
-	cyClient = cy;
+	cxClient_ = cx;
+	cyClient_ = cy;
 	Invalidate();
 }
 
 
-void CClockDlg::OnTimer(UINT_PTR nIDEvent)
+void CMainDlg::OnTimer(UINT_PTR nIDEvent)
 {
-	CPaintDC dc(this);
-	// TODO: Add your message handler code here and/or call default
-	Time datetime;
-	BOOL bChange = datetime != dtPrevious;//datetime->tm_hour != dtPrevious.tm_hour || datetime->tm_min != dtPrevious.tm_min;
-	SetIsotropic(dc, cxClient, cyClient);
-	dc.SelectStockObject(WHITE_PEN);
-	DrawHands(dc, dtPrevious, bChange);
-	dc.SelectStockObject(BLACK_PEN);
-	DrawHands(dc, datetime, TRUE);
-	ReleaseDC(&dc);
-	dtPrevious = datetime;
-	Invalidate();
+	if (!(manager_->eog())) {
+		current_participant_ = manager_->NextCount();
+	}
 	CDialogEx::OnTimer(nIDEvent);
 }
-/*
-BOOL ÑClockDlg::PreTranslateMessage(MSG *pMsg)
+
+
+void CMainDlg::OnClose()
 {
-	// If this is a timer callback message let it pass on through to the
-	// DispatchMessage call.
-	if ((pMsg->message == WM_TIMER) && (pMsg->hwnd == NULL))
-		return FALSE;
-
-	return CDialogEx::PreTranslateMessage(pMsg);
-}*/
-
-
-
-
-void CClockDlg::OnClose()
-{
-	// TODO: Add your message handler code here and/or call default
 	DestroyWindow();
 	CDialogEx::OnClose();
 }
 
 
-void CClockDlg::OnDestroy()
+void CMainDlg::OnDestroy()
 {
 	CDialogEx::OnDestroy();
 
-	KillTimer(ID_TIMER);
+	//KillTimer(ID_TIMER);
 	PostQuitMessage(0);
+}
+
+
+void CMainDlg::OnBnClickedStartGame()
+{
+	// TODO: Add your control notification handler code here
 }

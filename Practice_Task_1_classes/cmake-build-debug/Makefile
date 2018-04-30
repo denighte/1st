@@ -149,32 +149,32 @@ Counter.cpp.s:
 	$(MAKE) -f CMakeFiles\Practice_Task_1_classes.dir\build.make CMakeFiles/Practice_Task_1_classes.dir/Counter.cpp.s
 .PHONY : Counter.cpp.s
 
-flist.obj: flist.cpp.obj
+CounterManager.obj: CounterManager.cpp.obj
 
-.PHONY : flist.obj
+.PHONY : CounterManager.obj
 
 # target to build an object file
-flist.cpp.obj:
-	$(MAKE) -f CMakeFiles\Practice_Task_1_classes.dir\build.make CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.obj
-.PHONY : flist.cpp.obj
+CounterManager.cpp.obj:
+	$(MAKE) -f CMakeFiles\Practice_Task_1_classes.dir\build.make CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.obj
+.PHONY : CounterManager.cpp.obj
 
-flist.i: flist.cpp.i
+CounterManager.i: CounterManager.cpp.i
 
-.PHONY : flist.i
+.PHONY : CounterManager.i
 
 # target to preprocess a source file
-flist.cpp.i:
-	$(MAKE) -f CMakeFiles\Practice_Task_1_classes.dir\build.make CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.i
-.PHONY : flist.cpp.i
+CounterManager.cpp.i:
+	$(MAKE) -f CMakeFiles\Practice_Task_1_classes.dir\build.make CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.i
+.PHONY : CounterManager.cpp.i
 
-flist.s: flist.cpp.s
+CounterManager.s: CounterManager.cpp.s
 
-.PHONY : flist.s
+.PHONY : CounterManager.s
 
 # target to generate assembly for a file
-flist.cpp.s:
-	$(MAKE) -f CMakeFiles\Practice_Task_1_classes.dir\build.make CMakeFiles/Practice_Task_1_classes.dir/flist.cpp.s
-.PHONY : flist.cpp.s
+CounterManager.cpp.s:
+	$(MAKE) -f CMakeFiles\Practice_Task_1_classes.dir\build.make CMakeFiles/Practice_Task_1_classes.dir/CounterManager.cpp.s
+.PHONY : CounterManager.cpp.s
 
 main.obj: main.cpp.obj
 
@@ -215,9 +215,9 @@ help:
 	@echo ... Counter.obj
 	@echo ... Counter.i
 	@echo ... Counter.s
-	@echo ... flist.obj
-	@echo ... flist.i
-	@echo ... flist.s
+	@echo ... CounterManager.obj
+	@echo ... CounterManager.i
+	@echo ... CounterManager.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

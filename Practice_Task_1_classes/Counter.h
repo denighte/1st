@@ -9,28 +9,28 @@
 #include <vector>
 #include <exception>
 #include <iostream>
+#define EMPTY_LINE L""
 
-#define DEBUG
 
 
 
 class Counter {
 private:
-    std::string _src;
-    std::string::size_type _start;
-    std::string::size_type _end;
+    std::wstring _src;
+    std::wstring::size_type _start;
+    std::wstring::size_type _end;
 public:
     Counter() : _src() {}
     ~Counter() = default;
-    Counter(const std::string &str) : _src(str), _start(0), _end(0) {}
+    Counter(const std::wstring &str) : _src(str), _start(0), _end(0) {}
     Counter(const Counter &counter) : _src(counter._src), _start(counter._start), _end(counter._end) {}
     Counter &operator=(const Counter &counter);
-    Counter &operator=(const std::string &str);
+    Counter &operator=(const std::wstring &str);
 
-    void setCounter(const std::string &str);
-    const std::string & getSource() const { return _src; };
+    void setCounter(const std::wstring &str);
+    const std::wstring & getSource() const { return _src; };
 
-    std::string nextWord();
+    std::wstring nextWord();
     void restart();
 };
 
@@ -47,17 +47,17 @@ public:
 
     class WrongPathException : std::exception {};
     class GetRandomException : std::exception {};
-    void out() {
+    /*void out() {
         for(int i = 0; i < _vec.size(); i++)
             std::cout << _vec[i].getSource() << std::endl;
-    }
+    }*/
 };
 
 /*
 class Student {
 private:
     std::string name;
-    Picture _photo;
+    SPicture _photo;
 };
 
 class StudentList {
@@ -73,7 +73,7 @@ public:
 
 };
 
-class Picture {
+class SPicture {
 private:
     std::string _name;
 };
