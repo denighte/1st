@@ -7,46 +7,35 @@
 #include <ctime>
 #include <random>
 #define WORD_SEPARATORS L"-,. "
+void SplitToVector(std::vector<std::wstring> &v, const std::wstring &src, const std::wstring &dlm);
 
 
 Counter & Counter::operator=(const Counter &counter) {
-	_src = counter._src;
-	_start = counter._start;
-	_end = counter._end;
+	src_ = counter.src_;
+	current_word_ = counter.current_word_;
+	state_ = counter.state_;
 	return *this;
 }
 Counter & Counter::operator=(const std::wstring &str) {
-	_src = str;
-	_start = 0;
-	_end = 0;
+	SplitToVector(src_, str, WORD_SEPARATORS);
+	current_word_ = 0;
+	state_ = false;
 	return *this;
 }
 
-void Counter::setCounter(const std::wstring &str) {
-	_src = str;
-	_start = 0;
-	_end = 0;
+Counter::Counter(const std::wstring &str) : current_word_(0), state_(false) {
+	SplitToVector(src_, str, WORD_SEPARATORS);
 }
 
 std::wstring Counter::nextWord() {
-	_start = _src.find_first_not_of(WORD_SEPARATORS, _end);
-	_end = _src.find_first_of(WORD_SEPARATORS, _start);
-
-	if (_end != std::string::npos) {
-		std::wstring word = _src.substr(_start, _end - _start);
-		return word;
-	}
-	else if (_src.length() > _start) {
-		return _src.substr(_start);
-	}
-	else {
-		return std::wstring(EMPTY_LINE);
-	}
+	if (current_word_ + 1 == src_.size())
+		state_ = true;
+	return src_.at(current_word_++);
 }
 
 void Counter::restart() {
-	_start = 0;
-	_end = 0;
+	current_word_ = 0;
+	state_ = false;
 }
 
 CounterList& CounterList::operator=(const CounterList &list) {
@@ -76,4 +65,19 @@ const Counter & CounterList::getRandomCounter() const {
 	std::srand(std::time(0));
 	std::vector<Counter>::size_type number = std::abs(static_cast<int>(std::rand() % _vec.size() - 1));
 	return _vec.at(number);
+}
+
+void SplitToVector(std::vector<std::wstring> &v, const std::wstring &src, const std::wstring &dlm) {
+	std::wstring::size_type p, start = 0, len = src.length();
+
+	v.clear();
+	start = src.find_first_not_of(dlm);
+	p = src.find_first_of(dlm, start);
+	while (p != std::wstring::npos) {
+		v.push_back(src.substr(start, p - start));
+		start = src.find_first_not_of(dlm, p);
+		p = src.find_first_of(dlm, start);
+	}
+	if (len>start)//rest
+		v.push_back(src.substr(start, len - start));
 }

@@ -13,21 +13,15 @@ Student CounterManager::NextCount() {
 		return (*student_lst_.begin());
 	}
 
-	if (current_word_ == FIRST_COUNTER_START) {
-		current_student_ = getRandomStudent(student_lst_);  //choose random student
-		current_word_ = str_.nextWord(); //make a count
-		return *current_student_;
-	}
-
-	current_word_ = str_.nextWord(); //make a count
+	current_word_ = counter_.nextWord(); //make a count
 
 
-	if (current_word_ == EMPTY_LINE) {  //in case the count was over
+	if (counter_.eoc()) {  //in case the count was over
 		counter_state_ = true;
-		student_lst_.erase(current_student_);  //delete loser
-		CycleList<Student>::iterator current_student_ = getRandomStudent(student_lst_);  //choose random student
-		str_.restart(); //restart counter
-		return *current_student_;
+		Student loser = (*current_student_);
+		current_student_ = student_lst_.erase(current_student_);  //delete loser
+		counter_.restart(); //restart counter
+		return loser;
 	}
 
 	counter_state_ = false;

@@ -16,21 +16,20 @@
 
 class Counter {
 private:
-	std::wstring _src;
-	std::wstring::size_type _start;
-	std::wstring::size_type _end;
+	std::vector<std::wstring> src_;
+	std::vector<std::wstring>::size_type current_word_;
+	bool state_;
 public:
-	Counter() : _src() {}
+	Counter() : src_(), current_word_(), state_(false) {}
 	~Counter() = default;
-	Counter(const std::wstring &str) : _src(str), _start(0), _end(0) {}
-	Counter(const Counter &counter) : _src(counter._src), _start(counter._start), _end(counter._end) {}
+	Counter(const std::wstring &str);
+	Counter(const Counter &counter) : src_(counter.src_), current_word_(counter.current_word_), state_(false) {}
 	Counter &operator=(const Counter &counter);
 	Counter &operator=(const std::wstring &str);
 
-	void setCounter(const std::wstring &str);
-	const std::wstring & getSource() const { return _src; };
-
 	std::wstring nextWord();
+	bool eoc() const { return state_; }
+	std::vector<std::wstring>::size_type size() const { return src_.size(); };
 	void restart();
 };
 

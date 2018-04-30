@@ -184,17 +184,13 @@ void CMainDlg::OnPaint()
 		CPaintDC dc(this);
 		SetIsotropic(dc, cxClient_, cyClient_);
 		dc.SetTextAlign(TA_CENTER);
-		//DrawParticipantsCircle(dc);
-		//dc.TextOutW(800, 900, (manager_->CurrentWord().c_str()));
+		DrawParticipantsCircle(dc);
+		if (game_state_) {
+			dc.TextOutW(800, 900, (manager_->CurrentWord().c_str()));
+			SelectCurrentParticipant(dc);
+		}
 
-		/*int RotateAngle = 360 / NUMBER_OF_PARTICIPANTS;
-		for (int i = 0;;++i) {
-			int RAngle = i * RotateAngle;
-			DrawPointer(dc, RAngle);
-			if (i % 6 == 0)
-				i = 0;
-			_sleep(1000);
-		}*/
+		
 
 		CDialogEx::OnPaint();
 	}
@@ -252,6 +248,11 @@ void CMainDlg::DrawPointer(CDC& dc, int Angle) {
 
 }
 
+void CMainDlg::SelectCurrentParticipant(CDC& dc) {
+	int RAngle = current_participant_.id() * ROTATE_ANGLE;
+	DrawPointer(dc, RAngle);
+}
+
 // The system calls this function to obtain the cursor to display while the user drags
 //  the minimized window.
 HCURSOR CMainDlg::OnQueryDragIcon()
@@ -272,8 +273,9 @@ void CMainDlg::OnSize(UINT nType, int cx, int cy)
 
 void CMainDlg::OnTimer(UINT_PTR nIDEvent)
 {
-	if (!(manager_->eog())) {
+	if (!(manager_->eog()) && game_state_) {
 		current_participant_ = manager_->NextCount();
+		Invalidate();
 	}
 	CDialogEx::OnTimer(nIDEvent);
 }
@@ -297,5 +299,5 @@ void CMainDlg::OnDestroy()
 
 void CMainDlg::OnBnClickedStartGame()
 {
-	// TODO: Add your control notification handler code here
+	game_state_ = true;
 }
