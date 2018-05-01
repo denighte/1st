@@ -68,6 +68,5 @@ private:
 	void DrawPointer(CDC& dc, int Angle);
 	void DrawParticipantsCircle(CDC& dc);
 	void SelectCurrentParticipant(CDC& dc);
-
-
+	void DrawAvatar(CDC& dc, const CString name, int x, int y);
 };

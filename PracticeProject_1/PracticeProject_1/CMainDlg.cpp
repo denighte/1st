@@ -231,21 +231,116 @@ void CMainDlg::DrawParticipantsCircle(CDC& dc) {
 			if (flag) {
 				POINT StartPoint(PARTICIPANTS_START_POINT);
 				RotatePoint(&StartPoint, 1, static_cast<int>(i*RotateAngle));
+
+				//  Try to Draw avatar there
+				CString name = (*it).name().c_str();
+			
+				DrawAvatar(dc, name, StartPoint.x, StartPoint.y);
+
 				dc.TextOutW(StartPoint.x, StartPoint.y, (*it).name().c_str());
 			}
 		}
 	}
 }
+
+
+void CMainDlg::DrawAvatar(CDC &dc, const CString name, int x, int y)
+{
+
+	CString s = _T("D:\\Downloads\\Avatars\\");
+
+	CImage image;
+
+	if (!image.Load(s + name + _T(".bmp"))) {
+
+		CBitmap bmp;
+		bmp.Attach(image.Detach());
+
+		BITMAP bmpInfo;
+		bmp.GetBitmap(&bmpInfo);
+
+		CDC dcMemory;
+		dcMemory.CreateCompatibleDC(&dc);
+
+		CBitmap* pOldBitmap = dcMemory.SelectObject(&bmp);
+
+
+		for (int y = 0; y < bmpInfo.bmHeight/2; y++)
+		{
+			for (int x = 0; x < bmpInfo.bmWidth; x++)
+			{
+				COLORREF rgb1 = dcMemory.GetPixel(x, y);
+				COLORREF rgb2 = dcMemory.GetPixel(x, bmpInfo.bmHeight-y-1);
+
+				BYTE r = GetRValue(rgb2);
+				BYTE g = GetGValue(rgb2);
+				BYTE b = GetBValue(rgb2);
+				dcMemory.SetPixel(x, y, RGB(r, g, b));
+
+				r = GetRValue(rgb1);
+				g = GetGValue(rgb1);
+				b = GetBValue(rgb1);
+				dcMemory.SetPixel(x, bmpInfo.bmHeight - y - 1, RGB(r, g, b));
+
+			}
+		}
+
+		dc.BitBlt(x, y, bmpInfo.bmWidth, bmpInfo.bmHeight, &dcMemory,
+			0, 0, SRCCOPY | NOMIRRORBITMAP);
+
+		dcMemory.SelectObject(pOldBitmap);
+
+	}
+
+	/*class Avatar {
+		CDC memDC;
+		int width;
+		int height;
+		CBitmap* pOldBitmap;
+
+		~Avatar() { memDC.SelectObject(pOldBitmap); }
+
+	};*/
+
+/*
+
+	// From File:
+	hBitmap = (HBITMAP)LoadImage(0, _T("D:\\Downloads\\avatar.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
+
+	// From Resource:
+	// hBitmap = LoadBitmap(MAKEINTRESOURCE(IDB_MYBMP));
+
+	BITMAP BMP;
+	GetObject(hBitmap, sizeof(BMP), &BMP); // Here we get the BMP header info.
+
+
+	HDC BMPDC = CreateCompatibleDC(NULL); // This will hold the BMP image itself.
+	
+
+
+
+	CDC
+
+//	HDC hDC = GetDC(hWnd);
+	SelectObject(BMPDC, hBitmap); // Put the image into the DC.
+	dc.SelectObject(hBitmap);
+
+	dc.BitBlt(X, y, BMP.bmWidth, BMP.bmHeight, BMPDC, 0, 0, SRCCOPY); // Finally, Draw it 
+
+	ReleaseDC(hDC, hWnd);
+
+	// Don't forget to clean up!
+	DeleteDC(BMPDC);
+	DeleteObject(hBitmap); */
+}
+
+
 void CMainDlg::DrawPointer(CDC& dc, int Angle) {
 	POINT pt[POINTER_POINTS_NUMBER];
 	memcpy(&pt, &ARROWHEAD, sizeof(pt));
 	RotatePoint(pt, POINTER_POINTS_NUMBER, Angle);
 	dc.Polyline(pt, POINTER_POINTS_NUMBER);
-	/*dc.MoveTo(0, 0);
-	dc.LineTo(pt[0]);
-	dc.LineTo(pt[1]);
-	dc.MoveTo(pt[0]);
-	dc.LineTo(pt[2]);*/
+
 
 }
 
