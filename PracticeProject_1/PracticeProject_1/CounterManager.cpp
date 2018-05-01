@@ -20,12 +20,15 @@ Student CounterManager::NextCount() {
 		counter_state_ = true;
 		Student loser = (*current_student_);
 		current_student_ = student_lst_.erase(current_student_);  //delete loser
+		eoc_state_ = true; //set the flag, that the count was over
 		counter_.restart(); //restart counter
 		return loser;
 	}
 
 	counter_state_ = false;
-	++current_student_;  //find the next student
+	if(!eoc_state_)
+		++current_student_;  //find the next student
+	eoc_state_ = false;
 	return *current_student_;
 }
 

@@ -53,8 +53,7 @@ END_MESSAGE_MAP()
 
 CMainDlg::CMainDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_PRACTICEPROJECT_1_DIALOG, pParent), 
-	  manager_(nullptr),
-	  game_state_(false)
+	  manager_(nullptr)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -136,6 +135,7 @@ BOOL CMainDlg::OnInitDialog()
 
 	manager_ = new CounterManager(cnt, participants_);
 	game_state_ = false;
+	winner_state_ = false;
 
 	for (int i = 0; i != NUMBER_OF_PARTICIPANTS; ++i)
 		participants_state_[i] = true;
@@ -237,14 +237,15 @@ void CMainDlg::DrawParticipantsCircle(CDC& dc) {
 	}
 }
 void CMainDlg::DrawPointer(CDC& dc, int Angle) {
-	POINT pt[3];
-	memcpy(&pt, &POINTER_VERTEX, sizeof(pt));
-	RotatePoint(pt, 3, Angle);
-	dc.MoveTo(0, 0);
+	POINT pt[POINTER_POINTS_NUMBER];
+	memcpy(&pt, &ARROWHEAD, sizeof(pt));
+	RotatePoint(pt, POINTER_POINTS_NUMBER, Angle);
+	dc.Polyline(pt, POINTER_POINTS_NUMBER);
+	/*dc.MoveTo(0, 0);
 	dc.LineTo(pt[0]);
 	dc.LineTo(pt[1]);
 	dc.MoveTo(pt[0]);
-	dc.LineTo(pt[2]);
+	dc.LineTo(pt[2]);*/
 
 }
 
@@ -276,6 +277,10 @@ void CMainDlg::OnTimer(UINT_PTR nIDEvent)
 	if (!(manager_->eog()) && game_state_) {
 		current_participant_ = manager_->NextCount();
 		Invalidate();
+	}
+	else if (manager_->eog()) {
+		KillTimer(ID_TIMER);
+		winner_state_ = true;
 	}
 	CDialogEx::OnTimer(nIDEvent);
 }

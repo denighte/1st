@@ -45,9 +45,11 @@ private:
 
 	bool game_state_;
 	bool counter_state_;
+	bool eoc_state_;
 public:
 	CounterManager(const Counter &str, CycleList<Student> &lst) : counter_(str), student_lst_(lst), current_word_(FIRST_COUNTER_START),
-		current_student_(), game_state_(false), counter_state_(false) {
+																  current_student_(), game_state_(false), counter_state_(false), eoc_state_(false) 
+	{
 		current_student_ = getRandomStudent(student_lst_);
 	};
 	Student NextCount();

@@ -45,7 +45,8 @@ protected:
 private:
 	//constants
 	CONST POINT PARTICIPANTS_START_POINT = { 0, 600 };   //point, where the first student is to be drawn
-	CONST POINT POINTER_VERTEX[3] = { { 0, 500 },{ -20, 480 },{ 20, 480 } };   //array, wich specifies the pointer
+	static CONST INT POINTER_POINTS_NUMBER = 5;  //number of points in ARROWHEAD
+	CONST POINT ARROWHEAD[POINTER_POINTS_NUMBER] = { {0, 0}, { -30, 230 },{ 0, 500 },{ 30, 230 }, {0, 0} };   //array, wich specifies the pointer
 	static CONST INT NUMBER_OF_PARTICIPANTS = 6;
 	CONST INT ROTATE_ANGLE = 360 / NUMBER_OF_PARTICIPANTS;
 private:
@@ -53,6 +54,7 @@ private:
 	int cxClient_;
 	int cyClient_;
 	bool game_state_;  //the state of the game, if true - the game has started
+	bool winner_state_; //if the winner was detemined, the value is true
 	bool participants_state_[NUMBER_OF_PARTICIPANTS];  //array, wich shows which participants were removed
 
 	Counter RandomCounter_;			//random counter
