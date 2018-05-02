@@ -123,22 +123,7 @@ BOOL CMainDlg::OnInitDialog()
 	}
 
 	//Counter init
-	//TODO: add random counter selection
-	Counter cnt = L"Hush, mouse, cat on the roof";
-	
-	participants_.push_front(Student(L"Student1", 0, SPicture(1)));
-	participants_.push_front(Student(L"Student2", 1, SPicture(2)));
-	participants_.push_front(Student(L"Student3", 2, SPicture(3)));
-	participants_.push_front(Student(L"Student4", 3, SPicture(4)));
-	participants_.push_front(Student(L"Student5", 4, SPicture(5)));
-	participants_.push_front(Student(L"Student6", 5, SPicture(6)));
-
-	manager_ = new CounterManager(cnt, participants_);
-	game_state_ = false;
-	winner_state_ = false;
-
-	for (int i = 0; i != NUMBER_OF_PARTICIPANTS; ++i)
-		participants_state_[i] = true;
+	CounterInit();
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -217,34 +202,26 @@ void CMainDlg::RotatePoint(POINT pt[], int iNum, int iAngle) {
 }
 
 void CMainDlg::DrawParticipantsCircle(CDC& dc) {
-	int RotateAngle = 360 / NUMBER_OF_PARTICIPANTS;
 	for (int i = 0; i != NUMBER_OF_PARTICIPANTS; ++i) {
-		if (participants_state_[i]) {
-			bool flag = false;
-			CycleList<Student>::iterator it = participants_.begin();
-			for (int j = 0; j <= participants_.length(); ++it, ++j) {
-				if ((*it).id() == i) {
-					flag = true;
-					break;
-				}
-			}
-			if (flag) {
-				POINT StartPoint(PARTICIPANTS_START_POINT);
-				RotatePoint(&StartPoint, 1, static_cast<int>(i*RotateAngle));
-
-				//  Try to Draw avatar there
-				CString name = (*it).name().c_str();
-			
-				DrawAvatar(dc, name, StartPoint.x, StartPoint.y);
-
-				dc.TextOutW(StartPoint.x, StartPoint.y, (*it).name().c_str());
-			}
+		bool flag = false;
+		CycleList<Student>::iterator it = participants_.begin();
+		for (int j = 0; j <= participants_.length() && !flag; ++it, ++j) {
+			flag = ((*it).id() == i) ? true : false;
 		}
+		if (flag) {
+			POINT StartPoint(PARTICIPANTS_START_POINT);
+			RotatePoint(&StartPoint, 1, static_cast<int>(i*ROTATE_ANGLE));
+				//  Try to Draw avatar there
+				//CString name = (*it).name().c_str();
+				//DrawAvatar(dc, name, StartPoint.x, StartPoint.y);
+			dc.TextOutW(StartPoint.x, StartPoint.y, (*it).name().c_str());
+		}
+
 	}
 }
 
 
-void CMainDlg::DrawAvatar(CDC &dc, const CString name, int x, int y)
+void CMainDlg::DrawAvatar(CDC &dc, int x, int y, const CString name)
 {
 
 	CString s = _T("D:\\Downloads\\Avatars\\");
@@ -302,38 +279,7 @@ void CMainDlg::DrawAvatar(CDC &dc, const CString name, int x, int y)
 
 	};*/
 
-/*
-
-	// From File:
-	hBitmap = (HBITMAP)LoadImage(0, _T("D:\\Downloads\\avatar.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
-
-	// From Resource:
-	// hBitmap = LoadBitmap(MAKEINTRESOURCE(IDB_MYBMP));
-
-	BITMAP BMP;
-	GetObject(hBitmap, sizeof(BMP), &BMP); // Here we get the BMP header info.
-
-
-	HDC BMPDC = CreateCompatibleDC(NULL); // This will hold the BMP image itself.
-	
-
-
-
-	CDC
-
-//	HDC hDC = GetDC(hWnd);
-	SelectObject(BMPDC, hBitmap); // Put the image into the DC.
-	dc.SelectObject(hBitmap);
-
-	dc.BitBlt(X, y, BMP.bmWidth, BMP.bmHeight, BMPDC, 0, 0, SRCCOPY); // Finally, Draw it 
-
-	ReleaseDC(hDC, hWnd);
-
-	// Don't forget to clean up!
-	DeleteDC(BMPDC);
-	DeleteObject(hBitmap); */
 }
-
 
 void CMainDlg::DrawPointer(CDC& dc, int Angle) {
 	POINT pt[POINTER_POINTS_NUMBER];
@@ -347,6 +293,29 @@ void CMainDlg::DrawPointer(CDC& dc, int Angle) {
 void CMainDlg::SelectCurrentParticipant(CDC& dc) {
 	int RAngle = current_participant_.id() * ROTATE_ANGLE;
 	DrawPointer(dc, RAngle);
+}
+
+
+void CMainDlg::CounterInit() {
+	//TODO: add random counter selection
+
+	Counter cnt = L"Hush, mouse, cat on the roof";
+
+	participants_.push_front(Student(L"Student1", 0, SPicture(1)));
+	participants_.push_front(Student(L"Student2", 1, SPicture(2)));
+	participants_.push_front(Student(L"Student3", 2, SPicture(3)));
+	participants_.push_front(Student(L"Student4", 3, SPicture(4)));
+	participants_.push_front(Student(L"Student5", 4, SPicture(5)));
+	participants_.push_front(Student(L"Student6", 5, SPicture(6)));
+
+	manager_ = new CounterManager(cnt, participants_);
+	game_state_ = false;
+	winner_state_ = false;
+
+}
+
+void CMainDlg::ResourcesInit() {
+
 }
 
 // The system calls this function to obtain the cursor to display while the user drags

@@ -6,7 +6,8 @@
 #include "afxwin.h"
 #include "CounterManager.h"
 #include "CycleList.h"
-
+#include <experimental\filesystem>
+#include <hash_map>
 
 // CMainDlg dialog
 class CMainDlg : public CDialogEx
@@ -44,18 +45,24 @@ protected:
 
 private:
 	//constants
-	CONST POINT PARTICIPANTS_START_POINT = { 0, 600 };   //point, where the first student is to be drawn
 	static CONST INT POINTER_POINTS_NUMBER = 5;  //number of points in ARROWHEAD
 	CONST POINT ARROWHEAD[POINTER_POINTS_NUMBER] = { {0, 0}, { -30, 230 },{ 0, 500 },{ 30, 230 }, {0, 0} };   //array, wich specifies the pointer
-	static CONST INT NUMBER_OF_PARTICIPANTS = 6;
+
+	static CONST INT NUMBER_OF_PARTICIPANTS = 6;  //number of participants
+	CONST POINT PARTICIPANTS_START_POINT = { 0, 600 };   //point, where the first student is to be drawn
 	CONST INT ROTATE_ANGLE = 360 / NUMBER_OF_PARTICIPANTS;
+
+	const std::wstring RESOURCES_CURRENT_FOLDER = L"\\Resources";
+	const std::wstring RESOURCES_CURRENT_FULL_PATH = static_cast<std::wstring>(std::experimental::filesystem::current_path()) + RESOURCES_CURRENT_FOLDER;
+
 private:
 	//Dialog data
 	int cxClient_;
 	int cyClient_;
 	bool game_state_;  //the state of the game, if true - the game has started
 	bool winner_state_; //if the winner was detemined, the value is true
-	bool participants_state_[NUMBER_OF_PARTICIPANTS];  //array, wich shows which participants were removed
+
+	
 
 	Counter RandomCounter_;			//random counter
 	CycleList<Student> participants_;   //list of the students-participants
@@ -63,10 +70,13 @@ private:
 	Student current_participant_;  //the student pointed to by the counter
 private:
 	//Dialog service functions
+	void CounterInit();
+	void ResourcesInit();
+
 	void SetIsotropic(CDC& dc, int cxClient, int cyClient);
 	void RotatePoint(POINT pt[], int iNum, int iAngle);
 	void DrawPointer(CDC& dc, int Angle);
 	void DrawParticipantsCircle(CDC& dc);
 	void SelectCurrentParticipant(CDC& dc);
-	void DrawAvatar(CDC& dc, const CString name, int x, int y);
+	void DrawAvatar(CDC& dc, int x, int y, const CString name);
 };

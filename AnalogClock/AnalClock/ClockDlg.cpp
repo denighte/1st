@@ -159,7 +159,6 @@ void CClockDlg::OnPaint()
 		SetIsotropic(dc, cxClient, cyClient);
 		DrawClock(dc);
 		DrawHands(dc, dtPrevious, TRUE);
-		dc.TextOutW(500, 500, _T("smt"));
 		CDialogEx::OnPaint();
 	}
 }
