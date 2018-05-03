@@ -68,7 +68,7 @@ BOOL CPApp::InitInstance()
 	// such as the name of your company or organization
 	
 	//SetRegistryKey(_T("Local AppWizard-Generated Applications"));
-	setlocale(LC_ALL, "Rus");  //changing locale, for russian language support
+	// setlocale(LC_ALL, "Rus");  //changing locale, for russian language support
 
 	CMainDlg dlg;
 	m_pMainWnd = &dlg;

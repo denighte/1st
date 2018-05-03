@@ -195,7 +195,6 @@
     <ClCompile Include="CMainDlg.cpp" />
     <ClCompile Include="Counter.cpp" />
     <ClCompile Include="CounterManager.cpp" />
-    <ClCompile Include="ImageObject.cpp" />
     <ClCompile Include="PracticeProject_1.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

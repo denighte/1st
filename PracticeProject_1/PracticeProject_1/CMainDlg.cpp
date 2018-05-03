@@ -3,6 +3,11 @@
 //
 
 #include "stdafx.h"
+
+#include <Mmsystem.h>
+#include <mciapi.h>
+#pragma comment(lib, "Winmm.lib")
+
 #include "PracticeProject_1.h"
 #include "CMainDlg.h"
 #include "afxdialogex.h"
@@ -78,6 +83,8 @@ BEGIN_MESSAGE_MAP(CMainDlg, CDialogEx)
 	ON_WM_CLOSE()
 	ON_WM_DESTROY()
 	ON_BN_CLICKED(IDC_START_GAME, &CMainDlg::OnBnClickedStartGame)
+	ON_WM_ERASEBKGND()
+	ON_WM_CREATE()
 END_MESSAGE_MAP()
 
 
@@ -121,9 +128,14 @@ BOOL CMainDlg::OnInitDialog()
 			MB_ICONEXCLAMATION | MB_OK);
 		return FALSE;
 	}
-
+		
 	//Counter init
 	CounterInit();
+
+	//for Resources init
+	first_OnPaint_ = true;
+
+	Playmp3();
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -150,6 +162,10 @@ void CMainDlg::OnPaint()
 	if (IsIconic())
 	{
 		CPaintDC dc(this); // device context for painting
+		if (first_OnPaint_) {
+			ResourcesInit(dc);
+			first_OnPaint_ = false;
+		}
 
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
@@ -167,6 +183,11 @@ void CMainDlg::OnPaint()
 	else
 	{
 		CPaintDC dc(this);
+		if (first_OnPaint_) {
+			ResourcesInit(dc);
+			first_OnPaint_ = false;
+		}
+
 		SetIsotropic(dc, cxClient_, cyClient_);
 		dc.SetTextAlign(TA_CENTER);
 		DrawParticipantsCircle(dc);
@@ -210,11 +231,13 @@ void CMainDlg::DrawParticipantsCircle(CDC& dc) {
 		}
 		if (flag) {
 			POINT StartPoint(PARTICIPANTS_START_POINT);
-			RotatePoint(&StartPoint, 1, static_cast<int>(i*ROTATE_ANGLE));
+			RotatePoint(&StartPoint, 1, static_cast<int>((*it).id()*ROTATE_ANGLE));
+			const std::wstring& name = (*it).name();
 				//  Try to Draw avatar there
-				//CString name = (*it).name().c_str();
-				//DrawAvatar(dc, name, StartPoint.x, StartPoint.y);
-			dc.TextOutW(StartPoint.x, StartPoint.y, (*it).name().c_str());
+			//img.Draw(dc, StartPoint.x, StartPoint.y, 0, 0, SRCCOPY | NOMIRRORBITMAP);
+			dc.TextOutW(StartPoint.x, StartPoint.y, name.c_str());
+			if (dict_.at(name).isInit())
+				dict_.at(name).Draw(dc, StartPoint.x, StartPoint.y, 0, 0, SRCCOPY | NOMIRRORBITMAP);
 		}
 
 	}
@@ -295,18 +318,25 @@ void CMainDlg::SelectCurrentParticipant(CDC& dc) {
 	DrawPointer(dc, RAngle);
 }
 
+void CMainDlg::Playmp3() {
+	mciSendString((std::wstring(L"open ") + RESOURCES_CURRENT_FULL_PATH + RESOURCES_MUSIC_FILE_NAME + L" type mpegvideo alias mp3").c_str(), NULL, 0, NULL);
+	mciSendString(L"play mp3", NULL, 0, NULL);
+}
 
 void CMainDlg::CounterInit() {
 	//TODO: add random counter selection
-
+	std::wstring resources_path = RESOURCES_CURRENT_FULL_PATH;
+	CounterList counters;
+	counters.loadFromFile(RESOURCES_CURRENT_FULL_PATH + RESOURCES_COUNTERS_FILE_NAME);
 	Counter cnt = L"Hush, mouse, cat on the roof";
 
-	participants_.push_front(Student(L"Student1", 0, SPicture(1)));
-	participants_.push_front(Student(L"Student2", 1, SPicture(2)));
-	participants_.push_front(Student(L"Student3", 2, SPicture(3)));
-	participants_.push_front(Student(L"Student4", 3, SPicture(4)));
-	participants_.push_front(Student(L"Student5", 4, SPicture(5)));
-	participants_.push_front(Student(L"Student6", 5, SPicture(6)));
+	participants_.push_front(Student(L"Student1", 0));
+	participants_.push_front(Student(L"Student2", 1));
+	participants_.push_front(Student(L"Student3", 2));
+	participants_.push_front(Student(L"Student4", 3));
+	participants_.push_front(Student(L"Student5", 4));
+	participants_.push_front(Student(L"Student6", 5));
+
 
 	manager_ = new CounterManager(cnt, participants_);
 	game_state_ = false;
@@ -314,8 +344,16 @@ void CMainDlg::CounterInit() {
 
 }
 
-void CMainDlg::ResourcesInit() {
+void CMainDlg::ResourcesInit(CDC& dc_sample) {
+	std::wstring resources_path = RESOURCES_CURRENT_FULL_PATH;
 
+	CycleList<Student>::iterator it = participants_.begin();
+	for (int i = 0; i != participants_.length(); ++i, ++it) {
+		const std::wstring& name = (*it).name();
+		dict_[name].LoadFromFile(dc_sample, (resources_path + name + PARTICIPANT_IMAGE_FILE_EXTENSION));
+		if(dict_.at(name).isInit())
+			dict_.at(name).Rotate();
+	}
 }
 
 // The system calls this function to obtain the cursor to display while the user drags
@@ -369,4 +407,24 @@ void CMainDlg::OnDestroy()
 void CMainDlg::OnBnClickedStartGame()
 {
 	game_state_ = true;
+}
+
+
+BOOL CMainDlg::OnEraseBkgnd(CDC* pDC)
+{
+	CBrush brush(RGB(255, 255, 255));
+	pDC->SelectObject(brush);
+	CRect rect;
+	GetClientRect(&rect);
+	pDC->Rectangle(rect); 
+	return false;
+}
+
+
+int CMainDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CDialogEx::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	return 0;
 }

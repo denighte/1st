@@ -6,7 +6,10 @@
 #include <fstream>
 #include <ctime>
 #include <random>
-#define WORD_SEPARATORS L"-,. "
+
+#include <locale>
+#include <codecvt>
+#define WORD_SEPARATORS L"-,.!? "
 void SplitToVector(std::vector<std::wstring> &v, const std::wstring &src, const std::wstring &dlm);
 
 
@@ -43,10 +46,26 @@ CounterList& CounterList::operator=(const CounterList &list) {
 	return *this;
 }
 
-void CounterList::loadFromFile(const std::string &path) {
+void CounterList::loadFromFile(const std::wstring &path) {
+
+	std::locale ru("rus_rus.1251");
+
+	std::wofstream ofile(path);
+
+
+	ofile.imbue(ru);
+
+
+	ofile << L"Эники - беники ели вареники Эники - беники - клёц!Вышел весёлый матрос." << std::endl;
+	ofile << L"Кони, кони, кони, кони, Мы сидели на балконе.Чай пили, чашки били, По - турецки говорили." << std::endl;
+	ofile << L"Мишка косолапый по лесу идёт, Шишки собирает, песенку поёт.Шишка отлетела — прямо Мишке в лоб! Мишка рассердился и ногою — топ!" << std::endl;
+	ofile.close();
+
 	std::wifstream file(path);
 	if (!file.is_open())
 		throw WrongPathException();
+
+	file.imbue(ru);
 
 	std::wstring buffer;
 	while (std::getline(file, buffer)) {
@@ -63,7 +82,7 @@ const Counter & CounterList::getRandomCounter() const {
 	//std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
 	//std::uniform_int_distribution<> dis(0, _vec.size());
 	std::srand(std::time(0));
-	std::vector<Counter>::size_type number = std::abs(static_cast<int>(std::rand() % _vec.size() - 1));
+	std::vector<Counter>::size_type number = static_cast<int>(std::abs(std::rand()) % _vec.size());
 	return _vec.at(number);
 }
 

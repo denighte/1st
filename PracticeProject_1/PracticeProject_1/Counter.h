@@ -41,7 +41,7 @@ public:
 	CounterList(const CounterList & list) : _vec(list._vec) {}
 	CounterList & operator=(const CounterList & list);
 
-	void loadFromFile(const std::string &path);
+	void loadFromFile(const std::wstring &path);
 	const Counter & getRandomCounter() const;
 
 	class WrongPathException : std::exception {};

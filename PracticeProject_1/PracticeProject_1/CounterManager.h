@@ -10,25 +10,14 @@
 #include "CycleList.h"
 #define  FIRST_COUNTER_START L"id1723451"
 
-class SPicture {
-private:
-	int id_;
-public:
-	explicit SPicture(int a) : id_(a) {}
-	SPicture(const SPicture &img) : id_(img.id_) {}
-	int id() const { return id_; }
-	void selectImage() {}
-};
-
 class Student {
 private:
 	std::wstring name_;
 	int id_;
-	SPicture img_;
 public:
-	Student() : name_(EMPTY_LINE), id_(0), img_(0) {}
-	Student(const std::wstring &name, int id, const SPicture &img) : name_(name), id_(id), img_(img) {}
-	Student(const Student &st) : name_(st.name_), id_(st.id_), img_(st.img_) {}
+	Student() : name_(EMPTY_LINE), id_(0) {}
+	Student(const std::wstring &name, int id) : name_(name), id_(id) {}
+	Student(const Student &st) : name_(st.name_), id_(st.id_) {}
 	const std::wstring & name() const { return name_; }
 	int id() const { return id_; }
 };
