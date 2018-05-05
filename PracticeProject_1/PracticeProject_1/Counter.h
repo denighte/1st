@@ -41,52 +41,12 @@ public:
 	CounterList(const CounterList & list) : _vec(list._vec) {}
 	CounterList & operator=(const CounterList & list);
 
-	void loadFromFile(const std::wstring &path);
+	bool loadFromFile(const std::wstring &path);
 	const Counter & getRandomCounter() const;
 
-	class WrongPathException : std::exception {};
 	class GetRandomException : std::exception {};
-	/*void out() {
-	for(int i = 0; i < _vec.size(); i++)
-	std::cout << _vec[i].getSource() << std::endl;
-	}*/
-};
-
-/*
-class Student {
-private:
-std::string name;
-SPicture _photo;
-};
-
-class StudentList {
-private:
-std::forward_list<Student> _clst;
-public:
-//
-void Add();
-void Remove();
-void Start();
-void Next();
-size_t size();
 
 };
 
-class SPicture {
-private:
-std::string _name;
-};
 
-class MusicFile {
-
-};
-
-class CounterManager {
-private:
-Counter _str;
-StudentList _slst;
-public:
-Student Count();
-};
-*/
 #endif //PRACTICE_TASK_1_CLASSES_COUNTER_H

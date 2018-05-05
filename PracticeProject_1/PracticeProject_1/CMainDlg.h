@@ -8,7 +8,9 @@
 #include "CycleList.h"
 #include <experimental\filesystem>
 #include <unordered_map>
+#include "DefineList.h"
 #include "ImageObject.h"
+
 //DIALOG CONSTANTS
 
 // CMainDlg dialog
@@ -41,34 +43,21 @@ protected:
 	afx_msg void OnClose();
 	afx_msg void OnDestroy();
 	afx_msg HCURSOR OnQueryDragIcon();
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+
+	afx_msg LRESULT OnDetermineWinner(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()
 
 
 
-private:
-	//CONSTANTS
-	static CONST INT POINTER_POINTS_NUMBER = 5;  //number of points in ARROWHEAD
-	static CONST INT NUMBER_OF_PARTICIPANTS = 6;  //number of participants
-
-	CONST POINT ARROWHEAD[POINTER_POINTS_NUMBER] = { { 0, 0 },{ -30, 230 },{ 0, 500 },{ 30, 230 },{ 0, 0 } };   //array, wich specifies the pointer
-	CONST POINT PARTICIPANTS_START_POINT = { 0, 600 };   //point, where the first student is to be drawn
-	CONST INT ROTATE_ANGLE = 360 / NUMBER_OF_PARTICIPANTS;
-
-	const std::wstring RESOURCES_CURRENT_FOLDER = L"\\Resources\\";
-	const std::wstring RESOURCES_CURRENT_FULL_PATH = static_cast<std::wstring>(std::experimental::filesystem::current_path()) + RESOURCES_CURRENT_FOLDER;
-	const std::wstring RESOURCES_COUNTERS_FILE_NAME = L"Counters.txt";
-	const std::wstring RESOURCES_MUSIC_FILE_NAME = L"WrathOfTheGiants.mp3";
-	const std::wstring PARTICIPANT_IMAGE_FILE_EXTENSION = L".bmp";
-	
 private:
 	//Dialog data
 	int cxClient_;
 	int cyClient_;
 	bool first_OnPaint_;
 	bool game_state_;  //the state of the game, if true - the game has started
-	bool winner_state_; //if the winner was detemined, the value is true
-
-	ImageObject img;
+	bool winner_state_; //true in case that the counter was over and winner was determined
 
 	Counter RandomCounter_;			//random counter
 	CycleList<Student> participants_;   //list of the students-participants
@@ -88,7 +77,6 @@ private:
 	void SelectCurrentParticipant(CDC& dc);
 	void DrawAvatar(CDC& dc, int x, int y, const CString name);  // NOTE: out-of-date function, has to be removed
 	void Playmp3();
-public:
-	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+
+
 };

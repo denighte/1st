@@ -7,6 +7,10 @@ private:
 	BITMAP bmpInfo_;
 	CBitmap* pOldBitmap_;
 	bool init_;
+
+	void shift_(int &x, int &y) {
+		x -= bmpInfo_.bmWidth/2;
+	}
 public:
 	ImageObject() : init_(false) {}
 	~ImageObject() {
@@ -62,6 +66,7 @@ public:
 	void Draw(CDC& dc, int x, int y, int xSrc, int ySrc, DWORD dwRop) {
 		if (!init_)
 			throw std::logic_error("ImageObject initialization error");
+		shift_(x, y);
 		dc.BitBlt(x, y, bmpInfo_.bmWidth, bmpInfo_.bmHeight, &dcMemory_,
 			0, 0, SRCCOPY | NOMIRRORBITMAP);
 	}

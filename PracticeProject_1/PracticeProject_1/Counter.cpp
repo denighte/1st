@@ -9,7 +9,7 @@
 
 #include <locale>
 #include <codecvt>
-#define WORD_SEPARATORS L"-,.!? "
+#define WORD_SEPARATORS L"–-,.!? "
 void SplitToVector(std::vector<std::wstring> &v, const std::wstring &src, const std::wstring &dlm);
 
 
@@ -46,24 +46,13 @@ CounterList& CounterList::operator=(const CounterList &list) {
 	return *this;
 }
 
-void CounterList::loadFromFile(const std::wstring &path) {
+bool CounterList::loadFromFile(const std::wstring &path) {
 
 	std::locale ru("rus_rus.1251");
 
-	std::wofstream ofile(path);
-
-
-	ofile.imbue(ru);
-
-
-	ofile << L"Эники - беники ели вареники Эники - беники - клёц!Вышел весёлый матрос." << std::endl;
-	ofile << L"Кони, кони, кони, кони, Мы сидели на балконе.Чай пили, чашки били, По - турецки говорили." << std::endl;
-	ofile << L"Мишка косолапый по лесу идёт, Шишки собирает, песенку поёт.Шишка отлетела — прямо Мишке в лоб! Мишка рассердился и ногою — топ!" << std::endl;
-	ofile.close();
-
 	std::wifstream file(path);
 	if (!file.is_open())
-		throw WrongPathException();
+		return false;
 
 	file.imbue(ru);
 
@@ -73,6 +62,7 @@ void CounterList::loadFromFile(const std::wstring &path) {
 			_vec.push_back(Counter(buffer));
 	}
 	file.close();
+	return true;
 }
 
 const Counter & CounterList::getRandomCounter() const {

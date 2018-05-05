@@ -85,6 +85,7 @@ BEGIN_MESSAGE_MAP(CMainDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_START_GAME, &CMainDlg::OnBnClickedStartGame)
 	ON_WM_ERASEBKGND()
 	ON_WM_CREATE()
+	ON_MESSAGE(SX_DETERMINE_WINNER, OnDetermineWinner)
 END_MESSAGE_MAP()
 
 
@@ -122,7 +123,7 @@ BOOL CMainDlg::OnInitDialog()
 	//extra initialization
 
 	//Timer init
-	if (!(this->SetTimer(ID_TIMER, 1000, NULL)))
+	if (!(this->SetTimer(ID_TIMER, COUNTER_GAME_TICKRATE ,NULL)))
 	{
 		MessageBox(_T("Too many clocks or timers!"), _T("Clock"),
 			MB_ICONEXCLAMATION | MB_OK);
@@ -134,8 +135,8 @@ BOOL CMainDlg::OnInitDialog()
 
 	//for Resources init
 	first_OnPaint_ = true;
+	winner_state_ = false;
 
-	Playmp3();
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -194,6 +195,10 @@ void CMainDlg::OnPaint()
 		if (game_state_) {
 			dc.TextOutW(800, 900, (manager_->CurrentWord().c_str()));
 			SelectCurrentParticipant(dc);
+		}
+		if (winner_state_) {
+			dc.SetBkMode(TA_CENTER);
+			dc.TextOutW(0, 800, _T("Winner, winner, chicken dinner!"));
 		}
 
 		
@@ -327,20 +332,22 @@ void CMainDlg::CounterInit() {
 	//TODO: add random counter selection
 	std::wstring resources_path = RESOURCES_CURRENT_FULL_PATH;
 	CounterList counters;
-	counters.loadFromFile(RESOURCES_CURRENT_FULL_PATH + RESOURCES_COUNTERS_FILE_NAME);
-	Counter cnt = L"Hush, mouse, cat on the roof";
+	Counter cnt = L"Вышел Месяц Из тумана, Вынул ножик Из кармана. Буду резать, Буду бить – Все равно Тебе водить!";
+	if (counters.loadFromFile(RESOURCES_CURRENT_FULL_PATH + RESOURCES_COUNTERS_FILE_NAME)) {
+		cnt = counters.getRandomCounter();
+	}
 
-	participants_.push_front(Student(L"Student1", 0));
-	participants_.push_front(Student(L"Student2", 1));
-	participants_.push_front(Student(L"Student3", 2));
-	participants_.push_front(Student(L"Student4", 3));
-	participants_.push_front(Student(L"Student5", 4));
-	participants_.push_front(Student(L"Student6", 5));
+
+	participants_.push_front(Student(CMAINDLG_PARTICIPANT_1, 0));
+	participants_.push_front(Student(CMAINDLG_PARTICIPANT_2, 1));
+	participants_.push_front(Student(CMAINDLG_PARTICIPANT_3, 2));
+	participants_.push_front(Student(CMAINDLG_PARTICIPANT_4, 3));
+	participants_.push_front(Student(CMAINDLG_PARTICIPANT_5, 4));
+	participants_.push_front(Student(CMAINDLG_PARTICIPANT_6, 5));
 
 
 	manager_ = new CounterManager(cnt, participants_);
 	game_state_ = false;
-	winner_state_ = false;
 
 }
 
@@ -382,9 +389,16 @@ void CMainDlg::OnTimer(UINT_PTR nIDEvent)
 	}
 	else if (manager_->eog()) {
 		KillTimer(ID_TIMER);
-		winner_state_ = true;
+		PostMessage(SX_DETERMINE_WINNER);
 	}
 	CDialogEx::OnTimer(nIDEvent);
+}
+
+LRESULT CMainDlg::OnDetermineWinner(WPARAM wParam, LPARAM lParam) {
+	Playmp3();
+	winner_state_ = true;
+	Invalidate();
+	return 0L;
 }
 
 
