@@ -3,11 +3,12 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <regex>
 #include <exception>
 #define DEFAULT_POS -1;
 
 typedef unsigned int Tpow;
-typedef int Tcoef;
+typedef double Tcoef;
 class Segment {
 private:
 	Tcoef _coef;
@@ -95,6 +96,7 @@ public:
 
 class PolynomialBuilder {
 private:
+	static std::regex exp;
 	static Segment _SegmentFromPower(Token & tk, const std::string &str, std::string::size_type &pos, Tcoef & coef, Tpow & pow, Token & last_sign);
 public:
 	static Polynomial parse(const std::string &str);

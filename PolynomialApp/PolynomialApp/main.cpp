@@ -1,5 +1,6 @@
 #include <iostream>
 #include "CPolynomial.h"
+// NOTE: string such as "x^5 + x - 1" can't be parsed correctly, you should type this like "1x^5 + 1x - 1"
 int main() {
 	std::string str_l;
 	std::string str_r;

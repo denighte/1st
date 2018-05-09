@@ -1,6 +1,10 @@
 #include "CPolynomial.h"
 #define POLYNOMIAL_POWER_SYMBOL '^'
 #define POLYNOMIAL_VARIABLE 'x'
+// you should replace literals "x" and "^" in the following regex to change the POLYNOMIAL_VARIABLE and POLYNOMIAL_POWER_SYMBOL parse rules
+// NOTE: string such as "x^5 + x - 1" can't be parsed correctly, you should type this like "x-1"
+std::regex PolynomialBuilder::exp("^([-\+])?((\\d+\.\\d+)|(\\d+))?(x)?([\\^]\\d)?");
+
 //Segment class definition
 Segment Segment::operator=(const Segment & rhs) {
 	_coef = rhs._coef;
@@ -243,7 +247,52 @@ Polynomial operator/(const Polynomial & lhs, const Polynomial & rhs)
 
 
 //PolinomialBulilder class definition
-Polynomial PolynomialBuilder::parse(const std::string &str)
+
+Polynomial PolynomialBuilder::parse(const std::string &str) {
+	Polynomial poly;
+	std::string str_copy(str);
+	str_copy.erase(remove_if(str_copy.begin(), str_copy.end(), isspace), str_copy.end());
+
+	std::smatch res;
+	std::string::const_iterator searchStart(str_copy.cbegin());
+
+	while (regex_search(searchStart, str_copy.cend(), res, exp))
+	{
+		Tcoef coef;
+		Tpow power;
+		bool coef_flag = false;
+		if (res[2].length()) {
+			coef = std::stod(res[1].str() + res[2].str());
+			coef_flag = true;
+		}
+		if (res[5].str() == "x") {
+			if (!coef_flag)
+				coef = 1;
+
+			if (res[6].str() != "") {
+				power = std::stoi(res[6].str().substr(1));
+			}
+			else {
+				power = 1;
+			}
+		}
+		else if (coef_flag) {
+			power = 0;
+		}
+		else {
+			break;
+		}
+
+		searchStart += res.position() + res.length();
+		poly += Segment(coef, power);
+	}
+
+	if (searchStart != str_copy.cend()) {
+		throw StringParseException();
+	}
+	return poly;
+}
+/*Polynomial PolynomialBuilder::parse(const std::string &str)
 {
 	Polynomial p;
 	std::string::size_type pos = 0;
@@ -340,7 +389,7 @@ Segment PolynomialBuilder::_SegmentFromPower(Token & tk, const std::string &str,
 	}
 
 
-}
+}*/
 
 
 //Token class definition
