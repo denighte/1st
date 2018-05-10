@@ -1,0 +1,11 @@
+﻿  stdafx.cpp
+  Ball.cpp
+Ball.cpp(51): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+Ball.cpp(52): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+  MainDlg.cpp
+  MovingBallApp.cpp
+  Generating code
+  All 338 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  MovingBall.vcxproj -> D:\Development\1st\MovingBall\Release\MovingBall.exe
+  MovingBall.vcxproj -> D:\Development\1st\MovingBall\Release\MovingBall.pdb (Full PDB)

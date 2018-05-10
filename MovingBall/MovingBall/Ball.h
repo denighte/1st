@@ -16,19 +16,28 @@ private:
 	double sin_;  //current direction sinus
 
 	double distance_;
+
+	RECT zone_;
 private:
 	bool CheckCursorCollision(int x, int y);
 
 	inline void CalculateDistance(int x, int y);
 	void CalculateAngle(int x, int y);
 
-	inline void CalculateAcceleration(int x, int y);
+	void CalculateAcceleration(int x, int y);
 	void CalculateSpeed();
+	void SlowDown();
+
+	void TakeAccountBordersBump();
+
 	inline void ChangePosition();
 
 public:
 	MovingBall() : R_(0), speedX_(0), speedY_(0) {}
-	MovingBall(int x, int y, int Radius) : x_(x), y_(y), R_(Radius), speedX_(0), speedY_(0) {}
+	MovingBall(int x, int y, int Radius) : x_(x), y_(y), R_(Radius), speedX_(0), speedY_(0) {}  //Note: Before class may be used, 
+																								//playzone must be initialized 
+	void InitMovementZone(const RECT& zone);
 	void React(int x, int y);
 	void Draw(CDC &dc);
+	bool Ñollision(int x, int y);
 };

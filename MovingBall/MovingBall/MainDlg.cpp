@@ -7,6 +7,7 @@
 #include "MainDlg.h"
 #include "afxdialogex.h"
 #include "DefineList.h"
+#include <string>
 #define ID_TIMER 1
 
 #ifdef _DEBUG
@@ -53,7 +54,7 @@ END_MESSAGE_MAP()
 
 CMainDlg::CMainDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_MOVINGBALL_DIALOG, pParent),
-	ball_(400, 200, 25)
+	ball_(400, 200, 25), ClickCounter_(0)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -68,6 +69,10 @@ BEGIN_MESSAGE_MAP(CMainDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_WM_TIMER()
+	ON_WM_LBUTTONDOWN()
+	ON_WM_CLOSE()
+	ON_WM_DESTROY()
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 
@@ -154,6 +159,7 @@ void CMainDlg::OnPaint()
 	{
 		CPaintDC dc(this);
 		ball_.Draw(dc);
+		dc.TextOutW(10, 10, std::to_wstring(ClickCounter_).c_str());
 		CDialogEx::OnPaint();
 	}
 }
@@ -176,4 +182,38 @@ void CMainDlg::OnTimer(UINT_PTR nIDEvent)
 	Invalidate();
 
 	CDialogEx::OnTimer(nIDEvent);
+}
+
+
+void CMainDlg::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	if (ball_.Ñollision(point.x, point.y))
+		ClickCounter_++;
+	Invalidate();
+
+	CDialogEx::OnLButtonDown(nFlags, point);
+}
+
+
+void CMainDlg::OnClose()
+{
+	DestroyWindow();
+	CDialogEx::OnClose();
+}
+
+
+void CMainDlg::OnDestroy()
+{
+	CDialogEx::OnDestroy();
+	KillTimer(ID_TIMER);
+	PostQuitMessage(0);
+}
+
+
+void CMainDlg::OnSize(UINT nType, int cx, int cy)
+{
+	CDialogEx::OnSize(nType, cx, cy);
+	RECT WindowSize;
+	GetClientRect(&WindowSize);
+	ball_.InitMovementZone(WindowSize);
 }

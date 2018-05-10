@@ -34,4 +34,10 @@ protected:
 	DECLARE_MESSAGE_MAP()
 private:
 	MovingBall ball_;
+	int ClickCounter_;
+public:
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnClose();
+	afx_msg void OnDestroy();
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 };
